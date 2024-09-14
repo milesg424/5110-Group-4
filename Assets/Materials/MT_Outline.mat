@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MT_TempPlayer
-  m_Shader: {fileID: -6465566751694194690, guid: 3f7978f37bdc0674db8ead6cc0bc9e16, type: 3}
+  m_Name: MT_Outline
+  m_Shader: {fileID: -6465566751694194690, guid: a3a11ff7668e2304488e46de448a6939, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -37,12 +37,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _FadeDistance: 75
+    - _OutlineThickness: 0.015
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Color: {r: 1.9766746, g: 0.33597243, b: 0, a: 1}
+    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &5415117100406743967
+--- !u!114 &1011020926383773307
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

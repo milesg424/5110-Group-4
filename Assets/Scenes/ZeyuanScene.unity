@@ -488,7 +488,7 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 60.000004
     OrthographicSize: 10
-    NearClipPlane: 0.3
+    NearClipPlane: -10
     FarClipPlane: 1000
     Dutch: 0
     ModeOverride: 0
@@ -533,7 +533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CameraRotateSpeed: 10
-  YOffset: 3
+  YOffset: 5
   HorizontalOffset: 10
 --- !u!1 &617485746
 GameObject:
@@ -594,7 +594,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: -10
   far clip plane: 1000
   field of view: 60.000004
   orthographic: 1
@@ -891,7 +891,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: 3f7978f37bdc0674db8ead6cc0bc9e16, type: 3}
+  - {fileID: 2100000, guid: 076c191083022c14ab0702d8831ead54, type: 2}
+  - {fileID: 2100000, guid: 95f2489cf6e9558449dee41a1e33dc1f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
