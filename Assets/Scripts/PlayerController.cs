@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public int currentFacingDirection = 1;
 
     Rigidbody rb;
+    Animator animator;
+
+    int currentDirection;
 
     private static PlayerController mInstance;
     public static PlayerController Instance { get { return mInstance; } }
@@ -30,6 +33,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -37,6 +41,14 @@ public class PlayerController : MonoBehaviour
     {
         float x = Input.GetAxisRaw("Horizontal");
         bool y = Input.GetKeyDown(KeyCode.Space);
+        animator.SetInteger("Walk", (int)x);
+        currentDirection = (int)x == 0 ? currentDirection : (int)x;
+
+        float temp = (currentFacingDirection) * 90 * currentDirection == -180 || 
+            (currentFacingDirection) * 90 * currentDirection == 360 ?
+            0 : (currentFacingDirection) * 90 * currentDirection == -360 ? 
+            180 : (currentFacingDirection) * 90 * currentDirection;
+        transform.rotation = Quaternion.Euler(new Vector3(0, temp, 0));
         if (y)
         {
             rb.velocity = new Vector3(rb.velocity.x, JumpHeight, rb.velocity.z);
