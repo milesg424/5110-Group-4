@@ -11,8 +11,9 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody rb;
     Animator animator;
+    Interactable lastInteracting;
 
-    int currentDirection;
+    int currentWalkingDirection;
 
     private static PlayerController mInstance;
     public static PlayerController Instance { get { return mInstance; } }
@@ -41,13 +42,13 @@ public class PlayerController : MonoBehaviour
     {
         float x = Input.GetAxisRaw("Horizontal");
         bool y = Input.GetKeyDown(KeyCode.Space);
-        animator.SetInteger("Walk", (int)x);
-        currentDirection = (int)x == 0 ? currentDirection : (int)x;
 
-        float temp = (currentFacingDirection) * 90 * currentDirection == -180 || 
-            (currentFacingDirection) * 90 * currentDirection == 360 ?
-            0 : (currentFacingDirection) * 90 * currentDirection == -360 ? 
-            180 : (currentFacingDirection) * 90 * currentDirection;
+        //animator.SetInteger("Walk", (int)x);
+        //currentWalkingDirection = (int)x == 0 ? currentWalkingDirection : (int)x;
+        //float temp = (currentFacingDirection) * 90 * currentDirection == -180 || 
+        //    (currentFacingDirection) * 90 * currentDirection == 360 ?
+        //    0 : (currentFacingDirection) * 90 * currentDirection == -360 ? 
+        //    180 : (currentFacingDirection) * 90 * currentDirection;
         //transform.rotation = Quaternion.Euler(new Vector3(0, temp, 0));
         if (y)
         {
@@ -71,5 +72,48 @@ public class PlayerController : MonoBehaviour
             default:
                 break;
         }
+
+        CheckInteractable();
+    }
+
+    void CheckInteractable()
+    {
+        //z,x,-z,-x
+        RaycastHit hit;
+        Vector3 direction = Vector3.zero;
+        switch (currentFacingDirection)
+        {
+            case 1:
+                direction = Vector3.forward;
+                break;
+            case 2:
+                direction = Vector3.right;
+                break;
+            case 3:
+                direction = Vector3.back;
+                break;
+            case 4:
+                direction = Vector3.left;
+                break;
+            default:
+                break;
+        }
+
+        if (Physics.Raycast(transform.position, direction, out hit, 1000, LayerMask.GetMask("Interactable")))
+        {
+            Interactable interactable = hit.transform.GetComponent<Interactable>();
+            lastInteracting = interactable;
+            lastInteracting.SetOutlineThickness(0.015f);
+            if (Input.GetButtonDown("Interact"))
+            {
+                interactable.Interact();
+            }
+        }
+        else if (lastInteracting != null)
+        {
+            lastInteracting.SetOutlineThickness(0);
+            lastInteracting = null;
+        }
+
     }
 }
