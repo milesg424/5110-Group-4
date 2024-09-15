@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
             (currentFacingDirection) * 90 * currentDirection == 360 ?
             0 : (currentFacingDirection) * 90 * currentDirection == -360 ? 
             180 : (currentFacingDirection) * 90 * currentDirection;
-        transform.rotation = Quaternion.Euler(new Vector3(0, temp, 0));
+        //transform.rotation = Quaternion.Euler(new Vector3(0, temp, 0));
         if (y)
         {
             rb.velocity = new Vector3(rb.velocity.x, JumpHeight, rb.velocity.z);
