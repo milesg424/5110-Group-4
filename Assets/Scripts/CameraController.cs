@@ -32,42 +32,41 @@ public class CameraController : MonoBehaviour
             if (Input.GetButtonDown("RotateClockwise"))
             {
                 isRotating = true;
-                PlayerController.Instance.currentFacingDirection = PlayerController.Instance.currentFacingDirection == 4 ? 1 : PlayerController.Instance.currentFacingDirection + 1;
-                StartCoroutine(IRotate(1));
+                PlayerController.Instance.currentFacingDirection = 1;
+                StartCoroutine(IRotate());
             }
             else if (Input.GetButtonDown("RotateCounterClockwise"))
             {
                 isRotating = true;
-                PlayerController.Instance.currentFacingDirection = PlayerController.Instance.currentFacingDirection == 1 ? 4 : PlayerController.Instance.currentFacingDirection - 1;
-                StartCoroutine(IRotate(-1));
+                PlayerController.Instance.currentFacingDirection = 4;
+                StartCoroutine(IRotate());
             }
         }
     }
 
-    IEnumerator IRotate(int direction)
+    IEnumerator IRotate()
     {
         isRotating = true;
         Vector3 rot = transform.rotation.eulerAngles;
         float targetX = 0;
         float targetZ = 0;
 
-        switch (direction)
+        switch (PlayerController.Instance.currentFacingDirection)
         {
             case 1:
-                rot = new Vector3(rot.x, rot.y + 90, rot.z);
+                rot = new Vector3(rot.x, 0, rot.z);
                 break;
-            case -1:
-                rot = new Vector3(rot.x, rot.y - 90, rot.z);
+            case 4:
+                rot = new Vector3(rot.x, -90, rot.z);
                 break;
         }
 
         Quaternion target = Quaternion.Euler(rot);
 
+        targetX = facingLogic[PlayerController.Instance.currentFacingDirection - 1].x * HorizontalOffset;
+        targetZ = facingLogic[PlayerController.Instance.currentFacingDirection - 1].y * HorizontalOffset;
         while (Mathf.Abs(transform.rotation.eulerAngles.y - target.eulerAngles.y) > 0.1f)
         {
-            targetX = facingLogic[PlayerController.Instance.currentFacingDirection - 1].x * HorizontalOffset;
-            targetZ = facingLogic[PlayerController.Instance.currentFacingDirection - 1].y * HorizontalOffset;
-
             float currentX = Mathf.Lerp(transposer.m_FollowOffset.x, targetX, Time.deltaTime * CameraRotateSpeed);
             float currentZ = Mathf.Lerp(transposer.m_FollowOffset.z, targetZ, Time.deltaTime * CameraRotateSpeed);
 

@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 26410661}
   - component: {fileID: 26410660}
   - component: {fileID: 26410659}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -824,7 +824,7 @@ GameObject:
   - component: {fileID: 754271801}
   - component: {fileID: 754271800}
   - component: {fileID: 754271799}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1997,7 +1997,6 @@ GameObject:
   - component: {fileID: 543450652168517105}
   - component: {fileID: 3469287838233295444}
   - component: {fileID: 1711813854505897630}
-  - component: {fileID: 3469287838233295445}
   m_Layer: 0
   m_Name: Triangle
   m_TagString: Untagged
@@ -2516,27 +2515,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148446080843}
   m_Mesh: {fileID: 2443237146360861554, guid: 13d24f5223a1186438c91dc257359f4a, type: 3}
---- !u!65 &3469287838233295445
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148446080843}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.19743674, y: 1.2968631, z: 1.4142135}
-  m_Center: {x: 0, y: 0.64843106, z: 0}
 --- !u!4 &3537713508200538407
 Transform:
   m_ObjectHideFlags: 0
@@ -3251,10 +3229,6 @@ PrefabInstance:
     - target: {fileID: 1492619556699820369, guid: cddbd0824eb740c41912d0024598e811, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6264450609673015526, guid: cddbd0824eb740c41912d0024598e811, type: 3}
-      propertyPath: password
-      value: 99999
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

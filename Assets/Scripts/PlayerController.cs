@@ -60,12 +60,6 @@ public class PlayerController : MonoBehaviour
             case 1:
                 rb.velocity = new Vector3(Speed * x, rb.velocity.y, 0);
                 break;
-            case 2:
-                rb.velocity = new Vector3(0, rb.velocity.y, -Speed * x);
-                break;
-            case 3:
-                rb.velocity = new Vector3(-Speed * x, rb.velocity.y, 0);
-                break;
             case 4:
                 rb.velocity = new Vector3(0, rb.velocity.y, Speed * x);
                 break;
@@ -78,19 +72,12 @@ public class PlayerController : MonoBehaviour
 
     void CheckInteractable()
     {
-        //z,x,-z,-x
         RaycastHit hit;
         Vector3 direction = Vector3.zero;
         switch (currentFacingDirection)
         {
             case 1:
                 direction = Vector3.forward;
-                break;
-            case 2:
-                direction = Vector3.right;
-                break;
-            case 3:
-                direction = Vector3.back;
                 break;
             case 4:
                 direction = Vector3.left;
@@ -99,15 +86,24 @@ public class PlayerController : MonoBehaviour
                 break;
         }
 
-        if (Physics.Raycast(transform.position, direction, out hit, 1000, LayerMask.GetMask("Interactable")))
+        if (Physics.Raycast(transform.position, direction, out hit, 1000, LayerMask.GetMask("Interactable") | LayerMask.GetMask("Wall")))
         {
             Interactable interactable = hit.transform.GetComponent<Interactable>();
-            lastInteracting = interactable;
-            lastInteracting.SetOutlineThickness(0.015f);
-            if (Input.GetButtonDown("Interact"))
+            if (interactable != null)
             {
-                interactable.Interact();
+                lastInteracting = interactable;
+                lastInteracting.SetOutlineThickness(0.015f);
+                if (Input.GetButtonDown("Interact"))
+                {
+                    interactable.Interact();
+                }
             }
+            else if (lastInteracting != null)
+            {
+                lastInteracting.SetOutlineThickness(0);
+                lastInteracting = null;
+            }
+
         }
         else if (lastInteracting != null)
         {
@@ -115,5 +111,13 @@ public class PlayerController : MonoBehaviour
             lastInteracting = null;
         }
 
+    }
+
+    void Dash()
+    {
+        if (currentFacingDirection == 2 || currentFacingDirection == 4)
+        {
+
+        }
     }
 }
