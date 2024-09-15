@@ -107,11 +107,15 @@ public class PlayerController : MonoBehaviour
                 break;
         }
 
-        if (Physics.Raycast(transform.position, direction, out hit, 1000, LayerMask.GetMask("Interactable") | LayerMask.GetMask("Wall")))
+        if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), direction, out hit, 1000, LayerMask.GetMask("Interactable") | LayerMask.GetMask("Wall")))
         {
             Interactable interactable = hit.transform.GetComponent<Interactable>();
             if (interactable != null)
             {
+                if (lastInteracting != null && lastInteracting != this)
+                {
+                    lastInteracting.SetOutlineThickness(0);
+                }
                 lastInteracting = interactable;
                 lastInteracting.SetOutlineThickness(0.015f);
                 if (Input.GetButtonDown("Interact"))
@@ -232,6 +236,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isDashing && collision.gameObject.CompareTag("Breakable"))
         {
+            //StartCoroutine(IHitStop());
             BreakableObject bo = collision.gameObject.GetComponent<BreakableObject>();
             bo.InstantiateParticle(transform.position + new Vector3(0, 0, 1) * x, Quaternion.identity);
             bo.Break();
@@ -242,5 +247,12 @@ public class PlayerController : MonoBehaviour
         {
             isDashHitSomething = true;
         }
+    }
+
+    IEnumerator IHitStop()
+    {
+        Time.timeScale = 0.02f;
+        yield return new WaitForSecondsRealtime(0.1f);
+        Time.timeScale = 1;
     }
 }

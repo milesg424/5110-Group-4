@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &26410659
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1622,7 +1622,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &1762493325
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3507,7 +3507,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 5
   JumpHeight: 10
-  dashCD: 2
+  dashCD: 1
   jumpAnimationTimer: 0.5
   jumpAnimationSpeed: 10
   numberOfRotation: 3
