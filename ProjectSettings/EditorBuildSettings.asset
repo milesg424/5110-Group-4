@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/ZeyuanScene.unity
+    guid: 82d51a7a4849f064388f772fb2366480
   m_configObjects: {}
