@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float Speed;
     [SerializeField] float JumpHeight;
     [SerializeField] float dashCD;
+    public float thirdPersonCameraSensitive;
 
     [Header("Crash Wall Stats---------")]
     [SerializeField] float jumpAnimationTimer;
@@ -20,17 +22,22 @@ public class PlayerController : MonoBehaviour
 
 
     [HideInInspector] public int currentFacingDirection = 1;
+    [HideInInspector] public bool isThirdPerson;
+
+    public Action OnSwitchThirdPerson;
+    public Action OnSwitchLockCamera;
 
     Rigidbody rb;
     Animator animator;
     Interactable lastInteracting;
+    CameraController cam;
 
     bool canMove = true;
     bool isDashHitSomething;
     bool isDashing;
     float x;
+    float z;
     float mDashCD;
-    int currentWalkingDirection;
 
     private static PlayerController mInstance;
     public static PlayerController Instance { get { return mInstance; } }
@@ -52,6 +59,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        cam = FindObjectOfType<CameraController>();
     }
 
     // Update is called once per frame
@@ -60,30 +68,20 @@ public class PlayerController : MonoBehaviour
         if (canMove)
         {
             x = Input.GetAxisRaw("Horizontal");
-            bool y = Input.GetKeyDown(KeyCode.Space);
-
-            //animator.SetInteger("Walk", (int)x);
-            //currentWalkingDirection = (int)x == 0 ? currentWalkingDirection : (int)x;
-            //float temp = (currentFacingDirection) * 90 * currentDirection == -180 || 
-            //    (currentFacingDirection) * 90 * currentDirection == 360 ?
-            //    0 : (currentFacingDirection) * 90 * currentDirection == -360 ? 
-            //    180 : (currentFacingDirection) * 90 * currentDirection;
-            //transform.rotation = Quaternion.Euler(new Vector3(0, temp, 0));
-            if (y)
+            z = Input.GetAxisRaw("Vertical");
+            bool jump = Input.GetKeyDown(KeyCode.Space);
+            if (jump)
             {
                 rb.velocity = new Vector3(rb.velocity.x, JumpHeight, rb.velocity.z);
             }
 
-            switch (currentFacingDirection)
+            if (Input.GetKeyDown(KeyCode.X))
             {
-                case 1:
-                    rb.velocity = new Vector3(Speed * x, rb.velocity.y, 0);
-                    break;
-                case 4:
-                    rb.velocity = new Vector3(0, rb.velocity.y, Speed * x);
-                    break;
-                default:
-                    break;
+                if (!isThirdPerson)
+                {
+                    OnSwitchThirdPerson?.Invoke();
+                }
+                isThirdPerson = !isThirdPerson;
             }
             CrashWall();
         }
@@ -91,8 +89,39 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void FixedUpdate()
+    {
+        if (canMove)
+        {
+            if (isThirdPerson)
+            {
+                if (x != 0 || z != 0)
+                {
+                    transform.localRotation = Quaternion.Euler(0f, cam.transform.localRotation.eulerAngles.y, 0f);
+                }
+                rb.velocity = transform.forward * Speed * z + transform.right * Speed * x + new Vector3(0, rb.velocity.y, 0);
+            }
+            else
+            {
+                switch (currentFacingDirection)
+                {
+                    case 1:
+                        rb.velocity = new Vector3(Speed * x, rb.velocity.y, 0);
+                        break;
+                    case 4:
+                        rb.velocity = new Vector3(0, rb.velocity.y, Speed * x);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+    }
+
     void CheckInteractable()
     {
+
         RaycastHit hit;
         Vector3 direction = Vector3.zero;
         switch (currentFacingDirection)
@@ -106,29 +135,32 @@ public class PlayerController : MonoBehaviour
             default:
                 break;
         }
+        Interactable interactable = null;
 
-        if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), direction, out hit, 1000, LayerMask.GetMask("Interactable") | LayerMask.GetMask("Wall")))
+        if (isThirdPerson)
         {
-            Interactable interactable = hit.transform.GetComponent<Interactable>();
-            if (interactable != null)
+            if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out hit, 1000, LayerMask.GetMask("Interactable") | LayerMask.GetMask("Wall")))
             {
-                if (lastInteracting != null && lastInteracting != this)
-                {
-                    lastInteracting.SetOutlineThickness(0);
-                }
-                lastInteracting = interactable;
-                lastInteracting.SetOutlineThickness(0.015f);
-                if (Input.GetButtonDown("Interact"))
-                {
-                    interactable.Interact();
-                }
+                interactable = hit.transform.GetComponent<Interactable>();
             }
-            else if (lastInteracting != null)
+        }
+        else if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), direction, out hit, 1000, LayerMask.GetMask("Interactable") | LayerMask.GetMask("Wall")))
+        {
+            interactable = hit.transform.GetComponent<Interactable>();
+        }
+
+        if (interactable != null)
+        {
+            if (lastInteracting != null && lastInteracting != this)
             {
                 lastInteracting.SetOutlineThickness(0);
-                lastInteracting = null;
             }
-
+            lastInteracting = interactable;
+            lastInteracting.SetOutlineThickness(0.015f);
+            if (Input.GetButtonDown("Interact"))
+            {
+                interactable.Interact();
+            }
         }
         else if (lastInteracting != null)
         {
@@ -140,29 +172,25 @@ public class PlayerController : MonoBehaviour
 
     void CrashWall()
     {
-        if (currentFacingDirection == 4 && Input.GetButtonDown("CrashWall") && mDashCD <= 0)
+        if (Input.GetButtonDown("CrashWall"))
         {
-            if (x > 0)
+            if (!isThirdPerson && currentFacingDirection == 4  && mDashCD <= 0)
             {
-                mDashCD = dashCD;
-                canMove = false;
-                StartCoroutine(ICrashWall(1));
-            }
-            else if (x < 0)
-            {
-                mDashCD = dashCD;
-                canMove = false;
-                StartCoroutine(ICrashWall(-1));
+                StartCoroutine(ICrashWall());
             }
         }
+        
         if (mDashCD > 0)
         {
             mDashCD = mDashCD - Time.deltaTime < 0 ? 0 : mDashCD - Time.deltaTime;
         }
     }
 
-    IEnumerator ICrashWall(int direction)
+    IEnumerator ICrashWall()
     {
+        int direction = x > 0 ? 1 : -1;
+        mDashCD = dashCD;
+        canMove = false;
         //Jump and Rotate
         float timer = jumpAnimationTimer;
         float rot = numberOfRotation * 360 + 90 * direction;

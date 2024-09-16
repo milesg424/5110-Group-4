@@ -12,6 +12,9 @@ public class CameraController : MonoBehaviour
     //int PlayerController.Instance.currentFacingDirection = 1;
     bool isRotating;
 
+    float desiredX;
+    float xRotation;
+
     Vector2[] facingLogic;
     CinemachineVirtualCamera vCam;
     CinemachineTransposer transposer;
@@ -23,26 +26,53 @@ public class CameraController : MonoBehaviour
         transposer = vCam.GetCinemachineComponent<CinemachineTransposer>();
         vCam.Follow = PlayerController.Instance.transform;
         transposer.m_FollowOffset = new Vector3(0, YOffset, -HorizontalOffset);
+
+        PlayerController.Instance.OnSwitchThirdPerson += SwitchToThirdPerson;
     }
 
     private void Update()
     {
-        if (!isRotating)
+        if (!PlayerController.Instance.isThirdPerson)
         {
-            if (Input.GetButtonDown("RotateClockwise"))
+            if (!isRotating)
             {
-                isRotating = true;
-                PlayerController.Instance.currentFacingDirection = 1;
-                StartCoroutine(IRotate());
-            }
-            else if (Input.GetButtonDown("RotateCounterClockwise"))
-            {
-                isRotating = true;
-                PlayerController.Instance.currentFacingDirection = 4;
-                StartCoroutine(IRotate());
+                if (Input.GetButtonDown("RotateClockwise"))
+                {
+                    isRotating = true;
+                    PlayerController.Instance.currentFacingDirection = 1;
+                    StartCoroutine(IRotate());
+                }
+                else if (Input.GetButtonDown("RotateCounterClockwise"))
+                {
+                    isRotating = true;
+                    PlayerController.Instance.currentFacingDirection = 4;
+                    StartCoroutine(IRotate());
+                }
             }
         }
+        else
+        {
+            float num = Input.GetAxis("Mouse X") * Time.deltaTime * PlayerController.Instance.thirdPersonCameraSensitive;
+            float num2 = Input.GetAxis("Mouse Y") * Time.deltaTime * PlayerController.Instance.thirdPersonCameraSensitive;
+            desiredX = transform.localRotation.eulerAngles.y + num;
+            xRotation -= num2;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            transform.localRotation = Quaternion.Euler(xRotation, desiredX, 0);
+        }
     }
+
+    //private void FixedUpdate()
+    //{
+    //    if (PlayerController.Instance.isThirdPerson)
+    //    {
+    //        float num = Input.GetAxis("Mouse X") * Time.fixedDeltaTime * PlayerController.Instance.thirdPersonCameraSensitive;
+    //        float num2 = Input.GetAxis("Mouse Y") * Time.fixedDeltaTime * PlayerController.Instance.thirdPersonCameraSensitive;
+    //        desiredX = transform.localRotation.eulerAngles.y + num;
+    //        xRotation -= num2;
+    //        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+    //        transform.localRotation = Quaternion.Euler(xRotation, desiredX, 0);
+    //    }
+    //}
 
     IEnumerator IRotate()
     {
@@ -81,5 +111,18 @@ public class CameraController : MonoBehaviour
         transform.rotation = Quaternion.Euler(rot);
         PlayerController.Instance.currentFacingDirection = PlayerController.Instance.currentFacingDirection;
         isRotating = false;
+    }
+
+    //IEnumerator ISwitchThirdPerson()
+    //{
+
+    //}
+
+    void SwitchToThirdPerson()
+    {
+        vCam.AddCinemachineComponent<CinemachineFramingTransposer>().m_CenterOnActivate = false;
+        vCam.GetComponent<CinemachineCollider>().enabled = true;
+        vCam.m_Lens.Orthographic = false;
+        transform.localRotation = Quaternion.Euler(90, 0, 0);
     }
 }
