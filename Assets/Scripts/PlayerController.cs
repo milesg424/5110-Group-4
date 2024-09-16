@@ -81,12 +81,23 @@ public class PlayerController : MonoBehaviour
                 {
                     OnSwitchThirdPerson?.Invoke();
                 }
+                else
+                {
+                    OnSwitchLockCamera?.Invoke();
+                    StartCoroutine(IResetRotation());
+                }
                 isThirdPerson = !isThirdPerson;
             }
             CrashWall();
         }
         CheckInteractable();
 
+    }
+
+    IEnumerator IResetRotation()
+    {
+        yield return new WaitForFixedUpdate();
+        transform.rotation = Quaternion.identity;
     }
 
     private void FixedUpdate()

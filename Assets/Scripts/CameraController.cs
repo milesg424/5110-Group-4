@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class CameraController : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class CameraController : MonoBehaviour
     CinemachineVirtualCamera vCam;
     CinemachineTransposer transposer;
 
+
     private void Start()
     {
         facingLogic = new Vector2[4] { new Vector2(0, -1), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(1, 0) };
@@ -28,6 +30,7 @@ public class CameraController : MonoBehaviour
         transposer.m_FollowOffset = new Vector3(0, YOffset, -HorizontalOffset);
 
         PlayerController.Instance.OnSwitchThirdPerson += SwitchToThirdPerson;
+        PlayerController.Instance.OnSwitchLockCamera += SwitchTo2D;
     }
 
     private void Update()
@@ -109,7 +112,7 @@ public class CameraController : MonoBehaviour
 
         transposer.m_FollowOffset = new Vector3(targetX, YOffset, targetZ);
         transform.rotation = Quaternion.Euler(rot);
-        PlayerController.Instance.currentFacingDirection = PlayerController.Instance.currentFacingDirection;
+        //PlayerController.Instance.currentFacingDirection = PlayerController.Instance.currentFacingDirection;
         isRotating = false;
     }
 
@@ -120,9 +123,33 @@ public class CameraController : MonoBehaviour
 
     void SwitchToThirdPerson()
     {
-        vCam.AddCinemachineComponent<CinemachineFramingTransposer>().m_CenterOnActivate = false;
+        vCam.AddCinemachineComponent<CinemachineFramingTransposer>();
         vCam.GetComponent<CinemachineCollider>().enabled = true;
         vCam.m_Lens.Orthographic = false;
-        transform.localRotation = Quaternion.Euler(90, 0, 0);
+        StartCoroutine(ISwitchToThirdPerson());
+    }
+
+    void SwitchTo2D()
+    {
+        transposer = vCam.AddCinemachineComponent<CinemachineTransposer>();
+        transposer.m_BindingMode = CinemachineTransposer.BindingMode.WorldSpace;
+        vCam.GetComponent<CinemachineCollider>().enabled = false;
+        vCam.m_Lens.Orthographic = true;
+        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        StartCoroutine(IRotate());
+    }
+
+    IEnumerator ISwitchToThirdPerson()
+    {
+        transform.localRotation = Quaternion.Euler(10, transform.localRotation.eulerAngles.y, 0);
+        xRotation = 10;
+        CinemachineFramingTransposer trans = vCam.GetCinemachineComponent<CinemachineFramingTransposer>();
+        trans.m_XDamping = 0;
+        trans.m_YDamping = 0;
+        trans.m_ZDamping = 0;
+        yield return new WaitForEndOfFrame();
+        trans.m_XDamping = 1;
+        trans.m_YDamping = 1;
+        trans.m_ZDamping = 1;
     }
 }
