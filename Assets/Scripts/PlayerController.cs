@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Basic Stats---------")]
-    [SerializeField] float Speed;
+    [SerializeField] public float Speed;
     [SerializeField] float JumpHeight;
     [SerializeField] float dashCD;
     public float thirdPersonCameraSensitive;

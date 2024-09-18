@@ -8,7 +8,10 @@ public class Interactable : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        outLine = GetComponent<MeshRenderer>().materials[1];
+        if (GetComponent<MeshRenderer>() != null && GetComponent<MeshRenderer>().materials.Length >= 2)
+        {
+            outLine = GetComponent<MeshRenderer>().materials[1];
+        }
         SetOutlineThickness(0);
     }
 
@@ -22,8 +25,11 @@ public class Interactable : MonoBehaviour
         Debug.Log("Interacting");
     }
 
-    public void SetOutlineThickness(float thickness)
+    public virtual void SetOutlineThickness(float thickness)
     {
-        outLine.SetFloat("_OutlineThickness", thickness);
+        if (outLine != null)
+        {
+            outLine.SetFloat("_OutlineThickness", thickness);
+        }
     }
 }

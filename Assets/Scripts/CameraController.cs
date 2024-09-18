@@ -123,6 +123,7 @@ public class CameraController : MonoBehaviour
 
     void SwitchToThirdPerson()
     {
+        vCam.m_Lens.NearClipPlane = 0.01f;
         vCam.AddCinemachineComponent<CinemachineFramingTransposer>();
         vCam.GetComponent<CinemachineCollider>().enabled = true;
         vCam.m_Lens.Orthographic = false;
@@ -131,6 +132,7 @@ public class CameraController : MonoBehaviour
 
     void SwitchTo2D()
     {
+        vCam.m_Lens.NearClipPlane = -100f;
         transposer = vCam.AddCinemachineComponent<CinemachineTransposer>();
         transposer.m_BindingMode = CinemachineTransposer.BindingMode.WorldSpace;
         vCam.GetComponent<CinemachineCollider>().enabled = false;
