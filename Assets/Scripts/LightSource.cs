@@ -21,6 +21,7 @@ public class LightSource : Interactable
     bool bIsInteracted;
     bool isFinishedInteraction;
     float currentIntensity;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -28,16 +29,14 @@ public class LightSource : Interactable
         rb = GetComponent<Rigidbody>();
         SetOverallIntensity(lightIntensityBeforeInteract);
         currentIntensity = lightIntensityBeforeInteract;
+        StartCoroutine(IFloating());
+
     }
 
     // Update is called once per frame
     protected override void Update()
     {
         base.Update();
-        //if (transform.position.x - PlayerController.Instance.transform.position.x > maxDistanceBetweenPlayer)
-        //{
-
-        //}
     }
     public override void SetOutlineThickness(float thickness)
     {
@@ -63,6 +62,19 @@ public class LightSource : Interactable
         SetMateralIntensity(intensity);
         SetLightIntensity(intensity * 2);
         SetLightRange(intensity / 3);
+    }
+
+    IEnumerator IFloating()
+    {
+        float temp = 0;
+        Vector3 posWithoutModified = Vector3.zero;
+        float y = transform.position.y;
+        while (true)
+        {
+            temp += Time.deltaTime;
+            transform.position = new Vector3(transform.position.x, y + Mathf.Sin(temp * 1.2f) * 0.2f, transform.position.z);
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     void SetMaterialColor(Color color)

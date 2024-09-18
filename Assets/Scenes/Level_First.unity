@@ -167,8 +167,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerFreezTimeWhenTouchLight: 4
-  blackOutRangeBeforeLightUp: 0.8
-  blackOutRangeAfterLightUp: 0.4
+  blackOutRangeBeforeLightUp: 2
+  playerBlackOutRangeBeforeLightUp: 10
+  blackOutRangeAfterLightUp: 20
+  blackMat: {fileID: 2100000, guid: 1aa1138e113aa004a9dba775f9bd3e53, type: 2}
+  rf: {fileID: -9023392343332822914, guid: 3fd40df050c3f7849ae47900d42129d4, type: 2}
 --- !u!1 &285657369
 GameObject:
   m_ObjectHideFlags: 0
