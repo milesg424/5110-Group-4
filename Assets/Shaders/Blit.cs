@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
+[System.Obsolete]
 public class Blit : ScriptableRendererFeature
 {
 
@@ -168,8 +169,8 @@ public class Blit : ScriptableRendererFeature
 
     public override void Create()
     {
-        var passIndex = settings.blitMaterial != null ? settings.blitMaterial.passCount - 1 : 1;
-        settings.blitMaterialPassIndex = Mathf.Clamp(settings.blitMaterialPassIndex, -1, passIndex);
+        //var passIndex = settings.blitMaterial != null ? settings.blitMaterial.passCount - 1 : 1;
+        //settings.blitMaterialPassIndex = Mathf.Clamp(settings.blitMaterialPassIndex, -1, passIndex);
         blitPass = new BlitPass(settings.Event, settings, name);
 
 #if !UNITY_2021_2_OR_NEWER

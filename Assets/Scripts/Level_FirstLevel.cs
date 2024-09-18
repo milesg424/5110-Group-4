@@ -51,7 +51,7 @@ public class Level_FirstLevel : MonoBehaviour
 
         tempMat = new Material(blackMat);
         rf.settings.blitMaterial = tempMat;
-        tempMat.SetFloat("_Alpha", 1);
+        tempMat.SetFloat("_Alpha", 0.995f);
         tempMat.SetVector("_Pos1", Vector3.zero);
         tempMat.SetVector("_Pos2", Vector3.zero);
         tempMat.SetFloat("_Size1", playerBlackOutRangeBeforeLightUp);
