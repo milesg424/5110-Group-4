@@ -11,6 +11,8 @@ public class CameraController : MonoBehaviour
     [SerializeField] float HorizontalOffset;
 
     //int PlayerController.Instance.currentFacingDirection = 1;
+    [HideInInspector] public bool canRotate;
+    [HideInInspector] public bool canSwith3D;
     bool isRotating;
 
     float desiredX;
@@ -19,8 +21,6 @@ public class CameraController : MonoBehaviour
     Vector2[] facingLogic;
     CinemachineVirtualCamera vCam;
     CinemachineTransposer transposer;
-
-
     private void Start()
     {
         facingLogic = new Vector2[4] { new Vector2(0, -1), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(1, 0) };
@@ -35,7 +35,7 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        if (!PlayerController.Instance.isThirdPerson)
+        if (!PlayerController.Instance.isThirdPerson && canRotate)
         {
             if (!isRotating)
             {
@@ -53,7 +53,7 @@ public class CameraController : MonoBehaviour
                 }
             }
         }
-        else
+        else if (PlayerController.Instance.isThirdPerson)
         {
             float num = Input.GetAxis("Mouse X") * Time.deltaTime * PlayerController.Instance.thirdPersonCameraSensitive;
             float num2 = Input.GetAxis("Mouse Y") * Time.deltaTime * PlayerController.Instance.thirdPersonCameraSensitive;
@@ -153,5 +153,10 @@ public class CameraController : MonoBehaviour
         trans.m_XDamping = 1;
         trans.m_YDamping = 1;
         trans.m_ZDamping = 1;
+    }
+
+    public void SetFollowTarget(Transform target)
+    {
+        vCam.Follow = target;
     }
 }

@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     Interactable lastInteracting;
     CameraController cam;
 
-    bool canMove = true;
+    [HideInInspector] public bool canMove = true;
     bool isDashHitSomething;
     bool isDashing;
     float x;
@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector3(rb.velocity.x, JumpHeight, rb.velocity.z);
             }
 
-            if (Input.GetKeyDown(KeyCode.X))
+            if (Input.GetKeyDown(KeyCode.X) && cam.canSwith3D)
             {
                 if (!isThirdPerson)
                 {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 public class Interactable : MonoBehaviour
 {
     Material outLine;
+    public Action OnInteract;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {

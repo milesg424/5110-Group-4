@@ -13,6 +13,8 @@ public class LightSource : Interactable
     [SerializeField] Light lightSource;
     [SerializeField] Transform targetPos;
 
+    [HideInInspector] public bool isUseMaxDistance = true;
+
     Material mt;
     Rigidbody rb;
 
@@ -48,6 +50,7 @@ public class LightSource : Interactable
     {
         if (!bIsInteracted)
         {
+            OnInteract?.Invoke();
             bIsInteracted = true;
             mt.SetInt("_Interact", 0);
             StartCoroutine(IInteract());
@@ -85,16 +88,16 @@ public class LightSource : Interactable
     IEnumerator IInteract()
     {
         yield return new WaitForSeconds(1);
-        while (targetPos.position.z - transform.position.z > 0.1f)
+        while (targetPos.position.x - transform.position.x > 0.1f)
         {
 
-            if (transform.position.z - PlayerController.Instance.transform.position.z > maxDistanceBetweenPlayer)
+            if (isUseMaxDistance && transform.position.x - PlayerController.Instance.transform.position.x > maxDistanceBetweenPlayer)
             {
                 rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * 2);
             }
             else
             {
-                rb.velocity = Vector3.Lerp(rb.velocity, Vector3.forward * moveSpeed, Time.deltaTime * 2);
+                rb.velocity = Vector3.Lerp(rb.velocity, Vector3.right * moveSpeed, Time.deltaTime * 2);
             }
             yield return new WaitForEndOfFrame();
         }
