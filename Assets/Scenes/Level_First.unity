@@ -537,6 +537,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &550541541 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4024964017736262007, guid: 469eba2db19080f48a28eeee441bbd01, type: 3}
+  m_PrefabInstance: {fileID: 1024192959}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &596834716
 GameObject:
   m_ObjectHideFlags: 3
@@ -750,9 +755,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6b170dee33ecf545abb574c0ae52402, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraRotateSpeed: 10
-  YOffset: 5
-  HorizontalOffset: 10
   canRotate: 0
   canSwith3D: 0
 --- !u!114 &684750554
@@ -1416,6 +1418,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: LightSource
       objectReference: {fileID: 0}
+    - target: {fileID: 7524767211876345915, guid: 469eba2db19080f48a28eeee441bbd01, type: 3}
+      propertyPath: relayPoints.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7524767211876345915, guid: 469eba2db19080f48a28eeee441bbd01, type: 3}
+      propertyPath: relayPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 550541541}
     - target: {fileID: 7733452572067362571, guid: 469eba2db19080f48a28eeee441bbd01, type: 3}
       propertyPath: m_Radius
       value: 1.2

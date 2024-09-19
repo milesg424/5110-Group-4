@@ -12,9 +12,9 @@ public class LightSource : Interactable
     [SerializeField] Light lightSource;
     [SerializeField] Transform targetPos;
 
-    [SerializeField] List<Transform> relayPoints;
-
     [HideInInspector] public bool isUseMaxDistance = true;
+
+    public List<Transform> relayPoints;
 
     Material mt;
     Rigidbody rb;

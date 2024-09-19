@@ -5,10 +5,16 @@ using UnityEngine.TextCore.Text;
 
 public class Level_SecondLevel : MonoBehaviour
 {
+    [SerializeField] GameObject fakeShadow;
+    [SerializeField] GameObject helpPuzzle;
+
+    bool isFirstPuzzleSolved;
+
     CameraController cc;
     BlackOutHandler blackoutHandler;
     LightSource lightSource;
     GSettings settings;
+    SpriteRenderer shadowSprite;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +34,9 @@ public class Level_SecondLevel : MonoBehaviour
 
         lightSource = FindObjectOfType<LightSource>();
         lightSource.InteractNoWaitTime();
+
+        shadowSprite = Instantiate(fakeShadow, PlayerController.Instance.transform).GetComponent<SpriteRenderer>();
+        Instantiate(helpPuzzle, lightSource.relayPoints[0].transform.position, Quaternion.identity);
     }
 
     // Update is called once per frame
@@ -39,6 +48,12 @@ public class Level_SecondLevel : MonoBehaviour
         vigCenter2 = new Vector3(vigCenter2.x, vigCenter2.y, 0);
         blackoutHandler.SetPosition(1, vigCenter1);
         blackoutHandler.SetPosition(2, vigCenter2);
+
+        if (!isFirstPuzzleSolved)
+        {
+            float distance = Mathf.Abs(lightSource.relayPoints[0].position.x - PlayerController.Instance.transform.position.x);
+            shadowSprite.color = new Color(0, 0, 0, Mathf.Clamp((15 - distance) / 15 * 0.5f, 0, 0.5f));
+        }
     }
 
     IEnumerator ISetPlayerCanMoveAtBeginning(float timer)
