@@ -5,22 +5,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Basic Stats---------")]
-    [SerializeField] public float Speed;
-    [SerializeField] float JumpHeight;
-    [SerializeField] float dashCD;
-    public float thirdPersonCameraSensitive;
-
-    [Header("Crash Wall Stats---------")]
-    [SerializeField] float jumpAnimationTimer;
-    [SerializeField] float jumpAnimationSpeed;
-    [SerializeField] float numberOfRotation;
-    [SerializeField] float dashSpeed;
-    [SerializeField] float dashDistance;
-    [SerializeField] float horizontalKnockBackForce;
-    [SerializeField] float verticalKnockBackForce;
-
-
     [HideInInspector] public int currentFacingDirection = 1;
     [HideInInspector] public bool isThirdPerson;
 
@@ -31,6 +15,7 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     Interactable lastInteracting;
     CameraController cam;
+    GSettings settings;
 
     [HideInInspector] public bool canMove = true;
     bool isDashHitSomething;
@@ -57,6 +42,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        settings = GameManager.Instance.settings;
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         cam = FindObjectOfType<CameraController>();
@@ -74,7 +60,7 @@ public class PlayerController : MonoBehaviour
             bool jump = Input.GetKeyDown(KeyCode.Space);
             if (jump)
             {
-                rb.velocity = new Vector3(rb.velocity.x, JumpHeight, rb.velocity.z);
+                rb.velocity = new Vector3(rb.velocity.x, settings.playerJumpHeight, rb.velocity.z);
             }
 
             if (Input.GetKeyDown(KeyCode.X) && cam.canSwith3D)
@@ -112,17 +98,17 @@ public class PlayerController : MonoBehaviour
                 {
                     transform.localRotation = Quaternion.Euler(0f, cam.transform.localRotation.eulerAngles.y, 0f);
                 }
-                rb.velocity = transform.forward * Speed * z + transform.right * Speed * x + new Vector3(0, rb.velocity.y, 0);
+                rb.velocity = transform.forward * settings.playerSpeed * z + transform.right * settings.playerSpeed * x + new Vector3(0, rb.velocity.y, 0);
             }
             else
             {
                 switch (currentFacingDirection)
                 {
                     case 1:
-                        rb.velocity = new Vector3(Speed * x, rb.velocity.y, 0);
+                        rb.velocity = new Vector3(settings.playerSpeed * x, rb.velocity.y, 0);
                         break;
                     case 4:
-                        rb.velocity = new Vector3(0, rb.velocity.y, Speed * x);
+                        rb.velocity = new Vector3(0, rb.velocity.y, settings.playerSpeed * x);
                         break;
                     default:
                         break;
@@ -202,16 +188,16 @@ public class PlayerController : MonoBehaviour
     IEnumerator ICrashWall()
     {
         int direction = x > 0 ? 1 : -1;
-        mDashCD = dashCD;
+        mDashCD = settings.dashCD;
         canMove = false;
         //Jump and Rotate
-        float timer = jumpAnimationTimer;
-        float rot = numberOfRotation * 360 + 90 * direction;
+        float timer = settings.jumpAnimationTimer;
+        float rot = settings.numberOfRotation * 360 + 90 * direction;
         while (timer > 0)
         {
             timer = timer - Time.deltaTime < 0 ? 0 : timer - Time.deltaTime;
-            rb.velocity = new Vector3(0, jumpAnimationSpeed * timer, jumpAnimationSpeed * timer * -direction);
-            transform.rotation = Quaternion.Euler(new Vector3((jumpAnimationTimer - timer) / jumpAnimationTimer * rot, 0, 0));
+            rb.velocity = new Vector3(0, settings.jumpAnimationSpeed * timer, settings.jumpAnimationSpeed * timer * -direction);
+            transform.rotation = Quaternion.Euler(new Vector3((settings.jumpAnimationTimer - timer) / settings.jumpAnimationTimer * rot, 0, 0));
             yield return new WaitForEndOfFrame();
         }
         transform.rotation = Quaternion.Euler(new Vector3(rot, 0, 0));
@@ -220,9 +206,9 @@ public class PlayerController : MonoBehaviour
         rb.useGravity = false;
         yield return new WaitForSeconds(0.05f);
         isDashing = true;
-        rb.velocity = new Vector3(0, 0, dashSpeed * direction);
+        rb.velocity = new Vector3(0, 0, settings.dashSpeed * direction);
         Vector3 curPos = transform.position;
-        Vector3 targetPos = new Vector3(curPos.x, curPos.y, dashDistance * direction + curPos.z);
+        Vector3 targetPos = new Vector3(curPos.x, curPos.y, settings.dashDistance * direction + curPos.z);
         if (direction > 0)
         {
             while (true)
@@ -235,7 +221,7 @@ public class PlayerController : MonoBehaviour
                 if (isDashHitSomething)
                 {
                     isDashHitSomething = false;
-                    rb.AddForce(new Vector3(0, verticalKnockBackForce, horizontalKnockBackForce * -direction), ForceMode.Impulse);
+                    rb.AddForce(new Vector3(0, settings.verticalKnockBackForce, settings.horizontalKnockBackForce * -direction), ForceMode.Impulse);
                     break;
                 }
                 yield return new WaitForEndOfFrame();
@@ -253,7 +239,7 @@ public class PlayerController : MonoBehaviour
                 if (isDashHitSomething)
                 {
                     isDashHitSomething = false;
-                    rb.AddForce(new Vector3(0, verticalKnockBackForce, horizontalKnockBackForce * -direction), ForceMode.Impulse);
+                    rb.AddForce(new Vector3(0, settings.verticalKnockBackForce, settings.horizontalKnockBackForce * -direction), ForceMode.Impulse);
                     break;
                 }
                 yield return new WaitForEndOfFrame();

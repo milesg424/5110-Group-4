@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class PasswordKeyBoard : MonoBehaviour
 {
-    [SerializeField] int password;
     [SerializeField] GameObject number;
     [SerializeField] GridLayoutGroup inputPanelNumbersGrid;
     [SerializeField] Color NumberForegroundColor;
@@ -18,11 +17,14 @@ public class PasswordKeyBoard : MonoBehaviour
     List<PasswordNumber> showNumbers;
     List<int> enteredNumber;
     int MaxInput;
+
+    GSettings settings;
     // Start is called before the first frame update
     void Start()
     {
+        settings = GameManager.Instance.settings;
         animator = GetComponent<Animator>();
-        MaxInput = password.ToString().Length;
+        MaxInput = settings.password.ToString().Length;
         enteredNumber = new List<int>();
         showNumbers = new List<PasswordNumber>();
         for (int i = 0; i < MaxInput; i++)
@@ -116,7 +118,7 @@ public class PasswordKeyBoard : MonoBehaviour
             {
                 pass += enteredNumber[i] * (int)Mathf.Pow(10, MaxInput - i - 1);
             }
-            if (pass == password)
+            if (pass == settings.password)
             {
                 Debug.Log("Correct");
             }

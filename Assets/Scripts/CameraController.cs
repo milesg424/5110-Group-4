@@ -2,15 +2,9 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] float CameraRotateSpeed;
-    [SerializeField] float YOffset;
-    [SerializeField] float HorizontalOffset;
-
-    //int PlayerController.Instance.currentFacingDirection = 1;
     [HideInInspector] public bool canRotate;
     [HideInInspector] public bool canSwith3D;
     bool isRotating;
@@ -21,16 +15,25 @@ public class CameraController : MonoBehaviour
     Vector2[] facingLogic;
     CinemachineVirtualCamera vCam;
     CinemachineTransposer transposer;
+    GSettings settings;
     private void Start()
     {
+        settings = GameManager.Instance.settings;
         facingLogic = new Vector2[4] { new Vector2(0, -1), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(1, 0) };
+
         vCam = GetComponent<CinemachineVirtualCamera>();
-        transposer = vCam.GetCinemachineComponent<CinemachineTransposer>();
         vCam.Follow = PlayerController.Instance.transform;
-        transposer.m_FollowOffset = new Vector3(0, YOffset, -HorizontalOffset);
+        vCam.m_Lens.OrthographicSize = settings.cameraSize;
+        vCam.m_Lens.FieldOfView = settings.cameraFOV;
+
+        transposer = vCam.GetCinemachineComponent<CinemachineTransposer>();
+        transposer.m_FollowOffset = new Vector3(0, settings.YOffset, -settings.HorizontalOffset);
 
         PlayerController.Instance.OnSwitchThirdPerson += SwitchToThirdPerson;
         PlayerController.Instance.OnSwitchLockCamera += SwitchTo2D;
+
+        canRotate = true;
+        canSwith3D = true;
     }
 
     private void Update()
@@ -55,8 +58,8 @@ public class CameraController : MonoBehaviour
         }
         else if (PlayerController.Instance.isThirdPerson)
         {
-            float num = Input.GetAxis("Mouse X") * Time.deltaTime * PlayerController.Instance.thirdPersonCameraSensitive;
-            float num2 = Input.GetAxis("Mouse Y") * Time.deltaTime * PlayerController.Instance.thirdPersonCameraSensitive;
+            float num = Input.GetAxis("Mouse X") * Time.deltaTime * settings.thirdPersonCameraSensitive;
+            float num2 = Input.GetAxis("Mouse Y") * Time.deltaTime * settings.thirdPersonCameraSensitive;
             desiredX = transform.localRotation.eulerAngles.y + num;
             xRotation -= num2;
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
@@ -96,21 +99,21 @@ public class CameraController : MonoBehaviour
 
         Quaternion target = Quaternion.Euler(rot);
 
-        targetX = facingLogic[PlayerController.Instance.currentFacingDirection - 1].x * HorizontalOffset;
-        targetZ = facingLogic[PlayerController.Instance.currentFacingDirection - 1].y * HorizontalOffset;
+        targetX = facingLogic[PlayerController.Instance.currentFacingDirection - 1].x * settings.HorizontalOffset;
+        targetZ = facingLogic[PlayerController.Instance.currentFacingDirection - 1].y * settings.HorizontalOffset;
         while (Mathf.Abs(transform.rotation.eulerAngles.y - target.eulerAngles.y) > 0.1f)
         {
-            float currentX = Mathf.Lerp(transposer.m_FollowOffset.x, targetX, Time.deltaTime * CameraRotateSpeed);
-            float currentZ = Mathf.Lerp(transposer.m_FollowOffset.z, targetZ, Time.deltaTime * CameraRotateSpeed);
+            float currentX = Mathf.Lerp(transposer.m_FollowOffset.x, targetX, Time.deltaTime * settings.CameraRotateSpeed);
+            float currentZ = Mathf.Lerp(transposer.m_FollowOffset.z, targetZ, Time.deltaTime * settings.CameraRotateSpeed);
 
 
-            transposer.m_FollowOffset = new Vector3(currentX, YOffset, currentZ);
-            transform.rotation = Quaternion.Lerp(transform.rotation, target, Time.deltaTime * CameraRotateSpeed);
+            transposer.m_FollowOffset = new Vector3(currentX, settings.YOffset, currentZ);
+            transform.rotation = Quaternion.Lerp(transform.rotation, target, Time.deltaTime * settings.CameraRotateSpeed);
             yield return new WaitForEndOfFrame();
 
         }
 
-        transposer.m_FollowOffset = new Vector3(targetX, YOffset, targetZ);
+        transposer.m_FollowOffset = new Vector3(targetX, settings.YOffset, targetZ);
         transform.rotation = Quaternion.Euler(rot);
         //PlayerController.Instance.currentFacingDirection = PlayerController.Instance.currentFacingDirection;
         isRotating = false;
