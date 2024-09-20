@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
@@ -9,6 +10,7 @@ public class Level_SecondLevel : MonoBehaviour
     [SerializeField] GameObject helpPuzzle;
 
     bool isFirstPuzzleSolved;
+    bool isTriggeredFirstPuzzle;
 
     CameraController cc;
     BlackOutHandler blackoutHandler;
@@ -19,7 +21,7 @@ public class Level_SecondLevel : MonoBehaviour
     void Start()
     {
         settings = GameManager.Instance.settings;
-        StartCoroutine(ISetPlayerCanMoveAtBeginning(3));
+        PlayerController.Instance.SetPlayerCanMove(3);
 
         blackoutHandler = FindObjectOfType<BlackOutHandler>();
         blackoutHandler.SetAlpha(0.995f);
@@ -36,7 +38,13 @@ public class Level_SecondLevel : MonoBehaviour
         lightSource.InteractNoWaitTime();
 
         shadowSprite = Instantiate(fakeShadow, PlayerController.Instance.transform).GetComponent<SpriteRenderer>();
-        Instantiate(helpPuzzle, lightSource.relayPoints[0].transform.position, Quaternion.identity);
+
+        GameObject go = Instantiate(helpPuzzle, lightSource.relayPoints[0].transform.position, Quaternion.identity);
+        go.GetComponent<Puzzle_Help>().OnComplete += () => { StartCoroutine(ICompleteHelpPuzzle()); };
+        go.GetComponent<Puzzle_Help>().OnComplete += () => { StartCoroutine(IIncreaseLighting()); };
+        go.GetComponent<Puzzle_Help>().OnComplete += () => { PlayerController.Instance.SetPlayerCanMove(3); };
+        go.GetComponent<Puzzle_Help>().OnComplete += () => { lightSource.GoToNextRelayPoint(); };
+        go.GetComponent<Puzzle_Help>().OnOneCharacterComplete += () => { PlayerController.Instance.SetPlayerCanMove(0.5f); };
     }
 
     // Update is called once per frame
@@ -52,14 +60,49 @@ public class Level_SecondLevel : MonoBehaviour
         if (!isFirstPuzzleSolved)
         {
             float distance = Mathf.Abs(lightSource.relayPoints[0].position.x - PlayerController.Instance.transform.position.x);
-            shadowSprite.color = new Color(0, 0, 0, Mathf.Clamp((15 - distance) / 15 * 0.5f, 0, 0.5f));
+            shadowSprite.color = new Color(0, 0, 0, Mathf.Clamp((15 - distance) / 7 * 0.5f, 0, 0.5f));
+            if (Mathf.Abs(PlayerController.Instance.transform.position.x - helpPuzzle.transform.position.x) < 15 && !isTriggeredFirstPuzzle)
+            {
+                StartCoroutine(ITriggeredFirstPuzzle());
+            }
         }
     }
 
-    IEnumerator ISetPlayerCanMoveAtBeginning(float timer)
+    #region FirstPuzzle------------------
+    IEnumerator ITriggeredFirstPuzzle()
     {
+        isTriggeredFirstPuzzle = true;
         PlayerController.Instance.canMove = false;
-        yield return new WaitForSeconds(timer);
+        cc.Follow(lightSource.transform);
+        yield return new WaitForSeconds(3);
         PlayerController.Instance.canMove = true;
+
     }
+
+    IEnumerator ICompleteHelpPuzzle()
+    {
+        isFirstPuzzleSolved = true;
+        cc.Follow(PlayerController.Instance.transform);
+        float alpha = shadowSprite.color.a;
+        while (alpha > 0.01f)
+        {
+            alpha = Mathf.Lerp(alpha, 0, Time.deltaTime * 2);
+            shadowSprite.color = new Color(0, 0, 0, alpha);
+            yield return new WaitForEndOfFrame();
+        }
+        shadowSprite.color = new Color(0, 0, 0, 0);
+    }
+    #endregion----------------------
+
+    IEnumerator IIncreaseLighting()
+    {
+        float alpha = blackoutHandler.GetAlpha();
+        while (alpha > 0.95f)
+        {
+            alpha = Mathf.Lerp(alpha, 0.95f, Time.deltaTime * 2);
+            blackoutHandler.SetAlpha(alpha);
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
 }

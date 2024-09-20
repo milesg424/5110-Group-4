@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     float z;
     float mDashCD;
 
+    Coroutine moveTimerCoroutine;
+
     private static PlayerController mInstance;
     public static PlayerController Instance { get { return mInstance; } }
 
@@ -281,5 +283,20 @@ public class PlayerController : MonoBehaviour
         Time.timeScale = 0.02f;
         yield return new WaitForSecondsRealtime(0.1f);
         Time.timeScale = 1;
+    }
+
+    public void SetPlayerCanMove(float timer)
+    {
+        if (moveTimerCoroutine != null)
+        {
+            StopCoroutine(moveTimerCoroutine);
+        }
+        moveTimerCoroutine = StartCoroutine(ISetPlayerCanMove(timer));
+    }
+    IEnumerator ISetPlayerCanMove(float timer)
+    {
+        canMove = false;
+        yield return new WaitForSeconds(timer);
+        canMove = true;
     }
 }

@@ -162,4 +162,9 @@ public class CameraController : MonoBehaviour
     {
         vCam.Follow = target;
     }
+
+    public void Follow(Transform trans)
+    {
+        vCam.Follow = trans;
+    }
 }

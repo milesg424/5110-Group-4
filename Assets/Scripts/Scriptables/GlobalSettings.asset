@@ -35,3 +35,5 @@ MonoBehaviour:
   YOffset: 5
   HorizontalOffset: 10
   cameraSize: 10
+  help_Timer: 1
+  help_Offset: 0.15

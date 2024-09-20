@@ -77,8 +77,13 @@ public class GSettings : ScriptableObject
     public float cameraSize;
 
 
-    //[Header("Second Level------------------------------")]
-    //[Header("Third Level-------------------------------")]
+
+    [Header("HELP谜题-------------------------------")]
+
+    [Rename("触发荧光字母所需时长")]
+    public float help_Timer;
+    [Rename("触发荧光字母所需精度")]
+    public float help_Offset;
 }
 
 

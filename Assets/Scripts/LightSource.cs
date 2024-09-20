@@ -46,10 +46,6 @@ public class LightSource : Interactable
     protected override void Update()
     {
         base.Update();
-        if (Input.GetKeyDown(KeyCode.V) && isHided)
-        {
-            StartCoroutine(IShow());
-        }
     }
 
     private void LateUpdate()
@@ -229,5 +225,10 @@ public class LightSource : Interactable
         yield return new WaitForSeconds(0.5f);
         currentRelayPoint++;
         isHiding = false;
+    }
+
+    public void GoToNextRelayPoint()
+    {
+        StartCoroutine(IShow());
     }
 }

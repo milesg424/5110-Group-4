@@ -48,10 +48,9 @@ public class Level_FirstLevel : MonoBehaviour
 
     IEnumerator IInteractWithLight()
     {
-        PlayerController.Instance.canMove = false;
+        PlayerController.Instance.SetPlayerCanMove(playerFreezTimeWhenTouchLight);
         StartCoroutine(ILightUp());
         yield return new WaitForSeconds(playerFreezTimeWhenTouchLight);
-        PlayerController.Instance.canMove = true;
     }
 
     IEnumerator ILightUp()

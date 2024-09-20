@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Puzzle_Help : MonoBehaviour
@@ -19,7 +21,7 @@ public class Puzzle_Help : MonoBehaviour
     Transform p3;
     Transform p4;
 
-    float timer = 0.8f;
+    float timer;
     float timer1;
     float timer2;
     float timer3;
@@ -30,10 +32,18 @@ public class Puzzle_Help : MonoBehaviour
     bool _3Solved;
     bool _4Solved;
 
+    bool puzzleComplete;
+
+    public Action OnComplete;
+    public Action OnOneCharacterComplete;
+    GSettings settings;
+
     Transform shadow;
     // Start is called before the first frame update
     void Start()
     {
+        settings = GameManager.Instance.settings;
+
         H = transform.Find("H");
         E = transform.Find("E");
         L = transform.Find("L");
@@ -49,6 +59,7 @@ public class Puzzle_Help : MonoBehaviour
         p3 = transform.Find("Point3");
         p4 = transform.Find("Point4");
 
+        timer = settings.help_Timer;
         timer1 = timer;
         timer2 = timer;
         timer3 = timer;
@@ -60,22 +71,32 @@ public class Puzzle_Help : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!_1Solved)
+        if (!puzzleComplete)
         {
-            CheckPlayerOnPosition(1);
+            if (!_1Solved)
+            {
+                CheckPlayerOnPosition(1);
+            }
+            if (!_2Solved)
+            {
+                CheckPlayerOnPosition(2);
+            }
+            if (!_3Solved)
+            {
+                CheckPlayerOnPosition(3);
+            }
+            if (!_4Solved)
+            {
+                CheckPlayerOnPosition(4);
+            }
+
+            if (_1Solved && _2Solved && _3Solved && _4Solved)
+            {
+                puzzleComplete = true;
+                OnComplete?.Invoke();
+            }
         }
-        if (!_2Solved)
-        {
-            CheckPlayerOnPosition(2);
-        }
-        if (!_3Solved)
-        {
-            CheckPlayerOnPosition(3);
-        }
-        if (!_4Solved)
-        {
-            CheckPlayerOnPosition(4);
-        }
+
     }
 
     void CheckPlayerOnPosition(int index)
@@ -83,13 +104,13 @@ public class Puzzle_Help : MonoBehaviour
         switch (index)
         {
             case 1:
-                if (Vector3.Distance(new Vector3(shadow.position.x, shadow.position.y, 0), new Vector3(p1.transform.position.x, p1.transform.position.y, 0)) < 0.2f)
+                if (Vector3.Distance(new Vector3(shadow.position.x, shadow.position.y, 0), new Vector3(p1.transform.position.x, p1.transform.position.y, 0)) < settings.help_Offset)
                 {
                     timer1 -= Time.deltaTime;
                     if (timer1 <= 0)
                     {
                         _1Solved = true;
-                        H.gameObject.SetActive(true);
+                        StartCoroutine(IShow(1));
                     }
                 }
                 else
@@ -98,13 +119,13 @@ public class Puzzle_Help : MonoBehaviour
                 }
                 break;
             case 2:
-                if (Vector3.Distance(new Vector3(shadow.position.x, shadow.position.y, 0), new Vector3(p2.transform.position.x, p2.transform.position.y, 0)) < 0.2f)
+                if (Vector3.Distance(new Vector3(shadow.position.x, shadow.position.y, 0), new Vector3(p2.transform.position.x, p2.transform.position.y, 0)) < settings.help_Offset)
                 {
                     timer2 -= Time.deltaTime;
                     if (timer2 <= 0)
                     {
                         _2Solved = true;
-                        E.gameObject.SetActive(true);
+                        StartCoroutine(IShow(2));
                     }
                 }
                 else
@@ -113,13 +134,13 @@ public class Puzzle_Help : MonoBehaviour
                 }
                 break;
             case 3:
-                if (Vector3.Distance(new Vector3(shadow.position.x, shadow.position.y, 0), new Vector3(p3.transform.position.x, p3.transform.position.y, 0)) < 0.2f)
+                if (Vector3.Distance(new Vector3(shadow.position.x, shadow.position.y, 0), new Vector3(p3.transform.position.x, p3.transform.position.y, 0)) < settings.help_Offset)
                 {
                     timer3 -= Time.deltaTime;
                     if (timer3 <= 0)
                     {
                         _3Solved = true;
-                        L.gameObject.SetActive(true);
+                        StartCoroutine(IShow(3));
                     }
                 }
                 else
@@ -128,13 +149,13 @@ public class Puzzle_Help : MonoBehaviour
                 }
                 break;
             case 4:
-                if (Vector3.Distance(new Vector3(shadow.position.x, shadow.position.y, 0), new Vector3(p4.transform.position.x, p4.transform.position.y, 0)) < 0.2f)
+                if (Vector3.Distance(new Vector3(shadow.position.x, shadow.position.y, 0), new Vector3(p4.transform.position.x, p4.transform.position.y, 0)) < settings.help_Offset)
                 {
                     timer4 -= Time.deltaTime;
                     if (timer4 <= 0)
                     {
                         _4Solved = true;
-                        P.gameObject.SetActive(true);
+                        StartCoroutine(IShow(4));
                     }
                 }
                 else
@@ -143,5 +164,71 @@ public class Puzzle_Help : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    IEnumerator IShow(int index)
+    {
+        OnOneCharacterComplete?.Invoke();
+        float strength = 1;
+        Material mat = null;
+        switch (index)
+        {
+            case 1:
+                mat = H.GetComponent<SpriteRenderer>().material;
+                H.gameObject.SetActive(true);
+                break;
+            case 2:
+                mat = E.GetComponent<SpriteRenderer>().material;
+                E.gameObject.SetActive(true);
+                break;
+            case 3:
+                mat = L.GetComponent<SpriteRenderer>().material;
+                L.gameObject.SetActive(true);
+                break;
+            case 4:
+                mat = P.GetComponent<SpriteRenderer>().material;
+                P.gameObject.SetActive(true);
+                break;
+        }
+        StartCoroutine(IHide(index));
+
+        mat.SetFloat("_DissolveStrength", strength);
+        while (strength > 0.05f)
+        {
+            strength = Mathf.Lerp(strength, 0, Time.deltaTime * 2);
+            mat.SetFloat("_DissolveStrength", strength);
+            yield return new WaitForEndOfFrame();
+        }
+        mat.SetFloat("_DissolveStrength", 0);
+    }
+
+    IEnumerator IHide(int index)
+    {
+        SpriteRenderer sr = null;
+        switch (index)
+        {
+            case 1:
+                sr = H_.GetComponent<SpriteRenderer>();
+                break;
+            case 2:
+                sr = E_.GetComponent<SpriteRenderer>();
+                break;
+            case 3:
+                sr = L_.GetComponent<SpriteRenderer>();
+                break;
+            case 4:
+                sr = P_.GetComponent<SpriteRenderer>();
+                break;
+        }
+
+        Color col = sr.color;
+        float alpha = col.a;
+        while (alpha > 0.05f)
+        {
+            alpha = Mathf.Lerp(alpha, 0, Time.deltaTime * 2);
+            sr.color = new Color(col.r, col.g, col.b, alpha);
+            yield return new WaitForEndOfFrame();
+        }
+        sr.color = new Color(col.r, col.g, col.b, 0);
     }
 }
