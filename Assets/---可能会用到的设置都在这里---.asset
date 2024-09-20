@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b22d6b1bee14d8e46996f7fd0bde8ab3, type: 3}
-  m_Name: GlobalSettings
+  m_Name: "---\u53EF\u80FD\u4F1A\u7528\u5230\u7684\u8BBE\u7F6E\u90FD\u5728\u8FD9\u91CC---"
   m_EditorClassIdentifier: 
   lightSourceRangeBeforeLightUp: 2
   lightSourceRangeAfterLightUp: 25
   playerRangeBeforeLightUp: 10
   playerRangeAfterLightUp: 10
   playerSpeed: 5
-  playerJumpHeight: 25
+  playerJumpHeight: 20
   horzontalForce: 10
+  verticalForce: 0
   dashCD: 1
   jumpAnimationTimer: 0.5
   jumpAnimationSpeed: 10

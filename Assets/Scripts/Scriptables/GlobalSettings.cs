@@ -28,6 +28,8 @@ public class GSettings : ScriptableObject
     public float playerJumpHeight;
     [Rename("玩家碰撞障碍物时的横向后坐力")]
     public float horzontalForce;
+    [Rename("玩家碰撞障碍物时的纵向后坐力")]
+    public float verticalForce;
     [Rename("玩家怼墙CD")]
     public float dashCD;
     [Rename("怼墙前摇时长")]

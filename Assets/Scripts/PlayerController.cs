@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
 
@@ -159,8 +160,17 @@ public class PlayerController : MonoBehaviour
         rb.velocity = movementForce + externalForce + constantForcee;
         if (useGravity)
         {
-            gravityForce = Vector3.Lerp(gravityForce, Vector3.down * 30, Time.fixedDeltaTime * 1);
-            rb.velocity += gravityForce;
+            if (externalForce.y > 0)
+            {
+                externalForce = new Vector3(externalForce.x, externalForce.y - Time.deltaTime * 15, externalForce.z);
+                gravityForce = Vector3.zero;
+            }
+            else
+            {
+                gravityForce = Vector3.Lerp(gravityForce, Vector3.down * 30, Time.fixedDeltaTime * 2);
+                rb.velocity += gravityForce;
+
+            }
         }
         else
         {
@@ -256,7 +266,6 @@ public class PlayerController : MonoBehaviour
             timer = timer - Time.deltaTime < 0 ? 0 : timer - Time.deltaTime;
             constantForcee = new Vector3(0, settings.jumpAnimationSpeed * timer, settings.jumpAnimationSpeed * timer * -direction);
             transform.rotation = Quaternion.Euler(new Vector3((settings.jumpAnimationTimer - timer) / settings.jumpAnimationTimer * rot, 0, 0));
-            Debug.Log(gravityForce);
             yield return new WaitForEndOfFrame();
         }
         transform.rotation = Quaternion.Euler(new Vector3(rot, 0, 0));
@@ -342,7 +351,10 @@ public class PlayerController : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Breakable"))
             {
-                WalkIntoWalls();
+                if (collision.contacts[0].normal.y == 0)
+                {
+                    WalkIntoWalls();
+                }
             }
         }
     }
@@ -352,6 +364,13 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             gravityForce = Vector3.zero;
+        }
+        else if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Breakable"))
+        {
+            if (collision.contacts[0].normal.y > 0)
+            {
+                gravityForce = Vector3.zero;
+            }
         }
     }
 
@@ -368,11 +387,11 @@ public class PlayerController : MonoBehaviour
         {
             if (currentFacingDirection == 1)
             {
-                externalForce = new Vector3(settings.horzontalForce * -x, externalForce.y, externalForce.z);
+                externalForce = new Vector3(settings.horzontalForce * -x, settings.verticalForce, externalForce.z);
             }
             else
             {
-                externalForce = new Vector3(externalForce.x, externalForce.y, settings.horzontalForce * -x);
+                externalForce = new Vector3(externalForce.x, settings.verticalForce, settings.horzontalForce * -x);
             }
         }
 

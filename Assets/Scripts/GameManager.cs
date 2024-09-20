@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] GSettings _settings;
+    [SerializeField] GSettings originalSettings;
     [HideInInspector] public GSettings settings;
 
     private static GameManager mInstance;
@@ -21,18 +21,18 @@ public class GameManager : MonoBehaviour
             mInstance = this;
             DontDestroyOnLoad(gameObject);
         }
-        settings = Instantiate(_settings);
+        settings = Instantiate(originalSettings);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
