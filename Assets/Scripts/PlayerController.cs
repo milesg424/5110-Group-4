@@ -387,11 +387,11 @@ public class PlayerController : MonoBehaviour
         {
             if (currentFacingDirection == 1)
             {
-                externalForce = new Vector3(settings.horzontalForce * -x, settings.verticalForce, externalForce.z);
+                externalForce = new Vector3(settings.horzontalForce * -x, externalForce.y + settings.verticalForce, externalForce.z);
             }
             else
             {
-                externalForce = new Vector3(externalForce.x, settings.verticalForce, settings.horzontalForce * -x);
+                externalForce = new Vector3(externalForce.x, externalForce.y + settings.verticalForce, settings.horzontalForce * -x);
             }
         }
 
