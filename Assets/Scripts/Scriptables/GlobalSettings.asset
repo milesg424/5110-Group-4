@@ -17,7 +17,8 @@ MonoBehaviour:
   playerRangeBeforeLightUp: 10
   playerRangeAfterLightUp: 10
   playerSpeed: 5
-  playerJumpHeight: 10
+  playerJumpHeight: 25
+  horzontalForce: 10
   dashCD: 1
   jumpAnimationTimer: 0.5
   jumpAnimationSpeed: 10
@@ -25,7 +26,7 @@ MonoBehaviour:
   dashSpeed: 20
   dashDistance: 2
   horizontalKnockBackForce: 15
-  verticalKnockBackForce: 10
+  verticalKnockBackForce: 15
   maxDistanceBetweenPlayer: 10
   lightSourceMoveSpeed: 5.05
   password: 999999
