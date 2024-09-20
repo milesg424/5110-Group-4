@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
                         movementForce = new Vector3(settings.playerSpeed * x, 0, 0);
                         break;
                     case 4:
-                        movementForce = new Vector3(0, 0, settings.playerSpeed * x);
+                        movementForce = new Vector3(0, 0, settings.playerSpeed * -x);
                         break;
                     default:
                         break;
@@ -391,7 +391,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                externalForce = new Vector3(externalForce.x, externalForce.y + settings.verticalForce, settings.horzontalForce * -x);
+                externalForce = new Vector3(externalForce.x, externalForce.y + settings.verticalForce, settings.horzontalForce * x);
             }
         }
 

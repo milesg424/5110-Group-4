@@ -45,13 +45,13 @@ public class CameraController : MonoBehaviour
                 if (Input.GetButtonDown("RotateClockwise"))
                 {
                     isRotating = true;
-                    PlayerController.Instance.currentFacingDirection = 1;
+                    PlayerController.Instance.currentFacingDirection = 4;
                     StartCoroutine(IRotate());
                 }
                 else if (Input.GetButtonDown("RotateCounterClockwise"))
                 {
                     isRotating = true;
-                    PlayerController.Instance.currentFacingDirection = 4;
+                    PlayerController.Instance.currentFacingDirection = 1;
                     StartCoroutine(IRotate());
                 }
             }
@@ -93,7 +93,7 @@ public class CameraController : MonoBehaviour
                 rot = new Vector3(rot.x, 0, rot.z);
                 break;
             case 4:
-                rot = new Vector3(rot.x, -90, rot.z);
+                rot = new Vector3(rot.x, 90, rot.z);
                 break;
         }
 
