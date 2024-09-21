@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.TextCore.Text;
 
 public class Level_SecondLevel : MonoBehaviour
@@ -13,7 +14,6 @@ public class Level_SecondLevel : MonoBehaviour
     bool isTriggeredFirstPuzzle;
 
     CameraController cc;
-    BlackOutHandler blackoutHandler;
     LightSource lightSource;
     GSettings settings;
     SpriteRenderer shadowSprite;
@@ -23,12 +23,11 @@ public class Level_SecondLevel : MonoBehaviour
         settings = GameManager.Instance.settings;
         PlayerController.Instance.SetPlayerCanMove(3);
 
-        blackoutHandler = FindObjectOfType<BlackOutHandler>();
-        blackoutHandler.SetAlpha(0.995f);
-        blackoutHandler.SetPosition(1, Vector3.zero);
-        blackoutHandler.SetPosition(2, Vector3.zero);
-        blackoutHandler.SetRange(1, settings.playerRangeAfterLightUp);
-        blackoutHandler.SetRange(2, settings.lightSourceRangeAfterLightUp);
+        BlackOutHandler.Instance.SetAlpha(0.995f);
+        BlackOutHandler.Instance.SetPosition(1, Vector3.zero);
+        BlackOutHandler.Instance.SetPosition(2, Vector3.zero);
+        BlackOutHandler.Instance.SetRange(1, settings.playerRangeAfterLightUp);
+        BlackOutHandler.Instance.SetRange(2, settings.lightSourceRangeAfterLightUp);
 
         cc = FindObjectOfType<CameraController>();
         cc.canRotate = false;
@@ -50,12 +49,12 @@ public class Level_SecondLevel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 vigCenter1 = Vector3.Lerp(blackoutHandler.GetPosition(1), Camera.main.WorldToViewportPoint(PlayerController.Instance.transform.position), Time.deltaTime * 5);
-        Vector3 vigCenter2 = Vector3.Lerp(blackoutHandler.GetPosition(2), Camera.main.WorldToViewportPoint(lightSource.transform.position), Time.deltaTime * 100);
+        Vector3 vigCenter1 = Vector3.Lerp(BlackOutHandler.Instance.GetPosition(1), Camera.main.WorldToViewportPoint(PlayerController.Instance.transform.position), Time.deltaTime * 5);
+        Vector3 vigCenter2 = Vector3.Lerp(BlackOutHandler.Instance.GetPosition(2), Camera.main.WorldToViewportPoint(lightSource.transform.position), Time.deltaTime * 100);
         vigCenter1 = new Vector3(vigCenter1.x, vigCenter1.y, 0);
         vigCenter2 = new Vector3(vigCenter2.x, vigCenter2.y, 0);
-        blackoutHandler.SetPosition(1, vigCenter1);
-        blackoutHandler.SetPosition(2, vigCenter2);
+        BlackOutHandler.Instance.SetPosition(1, vigCenter1);
+        BlackOutHandler.Instance.SetPosition(2, vigCenter2);
 
         if (!isFirstPuzzleSolved)
         {
@@ -96,11 +95,11 @@ public class Level_SecondLevel : MonoBehaviour
 
     IEnumerator IIncreaseLighting()
     {
-        float alpha = blackoutHandler.GetAlpha();
+        float alpha = BlackOutHandler.Instance.GetAlpha();
         while (alpha > 0.95f)
         {
             alpha = Mathf.Lerp(alpha, 0.95f, Time.deltaTime * 2);
-            blackoutHandler.SetAlpha(alpha);
+            BlackOutHandler.Instance.SetAlpha(alpha);
             yield return new WaitForEndOfFrame();
         }
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BlackOutHandler : MonoBehaviour
 {
@@ -8,10 +9,25 @@ public class BlackOutHandler : MonoBehaviour
     [SerializeField] Material blackMat;
     [HideInInspector] public Material material;
 
+    private static BlackOutHandler mInstance;
+    public static BlackOutHandler Instance { get { return mInstance; } }
+    private void Awake()
+    {
+        if (mInstance != null && mInstance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            mInstance = this;
+        }
+        DontDestroyOnLoad(gameObject);
 
+    }
     // Start is called before the first frame update
     void Start()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
         material = new Material(blackMat);
         rf.settings.blitMaterial = material;
     }
@@ -25,8 +41,6 @@ public class BlackOutHandler : MonoBehaviour
     {
         return material.GetFloat("_Alpha");
     }
-
-
 
     public void SetPosition(int index, Vector3 pos)
     {
@@ -56,6 +70,25 @@ public class BlackOutHandler : MonoBehaviour
 
     public void FirstLevelInit()
     {
+
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (mInstance == this)
+        {
+            if (scene.buildIndex != 1 && scene.buildIndex != 2)
+            {
+                rf.settings.blitMaterial = null;
+            }
+            else
+            {
+                if (rf.settings.blitMaterial == null)
+                {
+                    rf.settings.blitMaterial = material;
+                }
+            }
+        }
 
     }
 }

@@ -9,7 +9,6 @@ public class Level_FirstLevel : MonoBehaviour
 {
     [SerializeField] float playerFreezTimeWhenTouchLight;
     LightSource lightSource;
-    BlackOutHandler blackoutHandler;
 
     GSettings settings;
 
@@ -27,23 +26,22 @@ public class Level_FirstLevel : MonoBehaviour
         cc.canSwith3D = false;
         Camera.main.backgroundColor = Color.black;
 
-        blackoutHandler = FindObjectOfType<BlackOutHandler>();
-        blackoutHandler.SetAlpha(0.995f);
-        blackoutHandler.SetPosition(1, Vector3.zero);
-        blackoutHandler.SetPosition(2, Vector3.zero);
-        blackoutHandler.SetRange(1, settings.playerRangeBeforeLightUp);
-        blackoutHandler.SetRange(2, settings.lightSourceRangeBeforeLightUp);
+        BlackOutHandler.Instance.SetAlpha(0.995f);
+        BlackOutHandler.Instance.SetPosition(1, Vector3.zero);
+        BlackOutHandler.Instance.SetPosition(2, Vector3.zero);
+        BlackOutHandler.Instance.SetRange(1, settings.playerRangeBeforeLightUp);
+        BlackOutHandler.Instance.SetRange(2, settings.lightSourceRangeBeforeLightUp);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 vigCenter1 = Vector3.Lerp(blackoutHandler.GetPosition(1), Camera.main.WorldToViewportPoint(PlayerController.Instance.transform.position), Time.deltaTime * 5);
-        Vector3 vigCenter2 = Vector3.Lerp(blackoutHandler.GetPosition(2), Camera.main.WorldToViewportPoint(lightSource.transform.position), Time.deltaTime * 100);
+        Vector3 vigCenter1 = Vector3.Lerp(BlackOutHandler.Instance.GetPosition(1), Camera.main.WorldToViewportPoint(PlayerController.Instance.transform.position), Time.deltaTime * 5);
+        Vector3 vigCenter2 = Vector3.Lerp(BlackOutHandler.Instance.GetPosition(2), Camera.main.WorldToViewportPoint(lightSource.transform.position), Time.deltaTime * 100);
         vigCenter1 = new Vector3(vigCenter1.x, vigCenter1.y, 0);
         vigCenter2 = new Vector3(vigCenter2.x, vigCenter2.y, 0);
-        blackoutHandler.SetPosition(1, vigCenter1);
-        blackoutHandler.SetPosition(2, vigCenter2);
+        BlackOutHandler.Instance.SetPosition(1, vigCenter1);
+        BlackOutHandler.Instance.SetPosition(2, vigCenter2);
     }
 
     IEnumerator IInteractWithLight()
@@ -61,8 +59,8 @@ public class Level_FirstLevel : MonoBehaviour
         {
             temp1 = Mathf.Lerp(temp1, settings.playerRangeAfterLightUp, Time.deltaTime * 5);
             temp2 = Mathf.Lerp(temp2, settings.lightSourceRangeAfterLightUp, Time.deltaTime * 5);
-            blackoutHandler.SetRange(1, temp1);
-            blackoutHandler.SetRange(2, temp2);
+            BlackOutHandler.Instance.SetRange(1, temp1);
+            BlackOutHandler.Instance.SetRange(2, temp2);
             yield return new WaitForEndOfFrame();
         }
     }
