@@ -194,7 +194,7 @@ public class PlayerController : MonoBehaviour
                 direction = Vector3.forward;
                 break;
             case 4:
-                direction = Vector3.left;
+                direction = Vector3.right;
                 break;
             default:
                 break;
@@ -254,7 +254,7 @@ public class PlayerController : MonoBehaviour
     {
         isPreDashing = true;
         externalForce = Vector3.zero;
-        int direction = x > 0 ? 1 : -1;
+        int direction = x > 0 ? -1 : 1;
         mDashCD = settings.dashCD;
         canMove = false;
         //Jump and Rotate
@@ -337,7 +337,7 @@ public class PlayerController : MonoBehaviour
             {
                 //StartCoroutine(IHitStop());
                 BreakableObject bo = collision.gameObject.GetComponent<BreakableObject>();
-                bo.InstantiateParticle(transform.position + new Vector3(0, 0, 1) * x, Quaternion.identity);
+                bo.InstantiateParticle(transform.position + new Vector3(0, 0, 1) * -x, Quaternion.identity);
                 bo.Break();
                 isDashHitSomething = true;
 
