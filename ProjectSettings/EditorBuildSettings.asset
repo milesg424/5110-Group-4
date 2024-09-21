@@ -8,4 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ZeyuanScene.unity
     guid: 82d51a7a4849f064388f772fb2366480
+  - enabled: 1
+    path: Assets/Scenes/Level_First.unity
+    guid: 4eef1291a1b061c428d22865b006eef9
+  - enabled: 1
+    path: Assets/Scenes/Level_Second.unity
+    guid: a76c3bcc9cd4c6a4da556bf5c44a6ff2
+  - enabled: 1
+    path: Assets/Scenes/Level3.unity
+    guid: 14ccea63ff38d8949851fc65ad818ed0
   m_configObjects: {}
