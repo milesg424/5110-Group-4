@@ -21,7 +21,7 @@ public class ChangeCamera : MonoBehaviour
         
         if (!isThirdCamera)
         {
-            gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up*500,ForceMode.Impulse);
+            gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up*200,ForceMode.Impulse);
             isThirdCamera = true;
             PlayerController.OnSwitchThirdPerson?.Invoke();
             PlayerController.isThirdPerson = !PlayerController.isThirdPerson;
