@@ -19,7 +19,7 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         settings = GameManager.Instance.settings;
-        facingLogic = new Vector2[4] { new Vector2(0, -1), new Vector2(1, 0), new Vector2(0, 1), new Vector2(-1, 0) };
+        facingLogic = new Vector2[4] { new Vector2(0, -1), new Vector2(-1, 0), new Vector2(0, 1), new Vector2(1, 0) };
 
         vCam = GetComponent<CinemachineVirtualCamera>();
         vCam.Follow = PlayerController.Instance.transform;
