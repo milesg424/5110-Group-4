@@ -65,7 +65,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (canMove)
         {
             x = Input.GetAxisRaw("Horizontal");
@@ -82,13 +81,11 @@ public class PlayerController : MonoBehaviour
                 if (!isThirdPerson)
                 {
                     OnSwitchThirdPerson?.Invoke();
-                    
                 }
                 else
                 {
                     OnSwitchLockCamera?.Invoke();
                     StartCoroutine(IResetRotation());
-                    
                 }
                 isThirdPerson = !isThirdPerson;
             }
@@ -197,7 +194,7 @@ public class PlayerController : MonoBehaviour
                 direction = Vector3.forward;
                 break;
             case 4:
-                direction = Vector3.left;
+                direction = Vector3.right;
                 break;
             default:
                 break;
@@ -257,7 +254,7 @@ public class PlayerController : MonoBehaviour
     {
         isPreDashing = true;
         externalForce = Vector3.zero;
-        int direction = x > 0 ? 1 : -1;
+        int direction = x > 0 ? -1 : 1;
         mDashCD = settings.dashCD;
         canMove = false;
         //Jump and Rotate
@@ -340,7 +337,7 @@ public class PlayerController : MonoBehaviour
             {
                 //StartCoroutine(IHitStop());
                 BreakableObject bo = collision.gameObject.GetComponent<BreakableObject>();
-                bo.InstantiateParticle(transform.position + new Vector3(0, 0, 1) * x, Quaternion.identity);
+                bo.InstantiateParticle(transform.position + new Vector3(0, 0, 1) * -x, Quaternion.identity);
                 bo.Break();
                 isDashHitSomething = true;
 
@@ -354,7 +351,7 @@ public class PlayerController : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Breakable"))
             {
-                if (collision.contacts[0].normal.y == 0)
+                if (Mathf.Abs(collision.contacts[0].normal.y) < 0.01f)
                 {
                     WalkIntoWalls();
                 }
