@@ -69,12 +69,12 @@ public class PlayerController : MonoBehaviour
         {
             x = Input.GetAxisRaw("Horizontal");
             z = Input.GetAxisRaw("Vertical");
-            bool jump = Input.GetKeyDown(KeyCode.Space);
-            if (jump)
-            {
-                externalForce = new Vector3(externalForce.x, settings.playerJumpHeight, externalForce.z);
-                gravityForce = Vector3.zero;
-            }
+            //bool jump = Input.GetKeyDown(KeyCode.Space);
+            //if (jump)
+            //{
+            //    externalForce = new Vector3(externalForce.x, settings.playerJumpHeight, externalForce.z);
+            //    gravityForce = Vector3.zero;
+            //}
 
             if (Input.GetKeyDown(KeyCode.X) && cam.canSwith3D)
             {

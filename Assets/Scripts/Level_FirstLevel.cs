@@ -12,6 +12,8 @@ public class Level_FirstLevel : MonoBehaviour
     [SerializeField] GameObject wall;
     LightSource lightSource;
 
+    bool isFirstInteract;
+
     GSettings settings;
 
     // Start is called before the first frame update
@@ -19,9 +21,12 @@ public class Level_FirstLevel : MonoBehaviour
     {
         settings = GameManager.Instance.settings;
         CameraController cc = FindObjectOfType<CameraController>();
+        UIManager.Instance.PopAD(3);
         lightSource = FindObjectOfType<LightSource>();
         lightSource.OnInteract += () => { StartCoroutine(IInteractWithLight()); };
         lightSource.OnInteract += () => { nextLevel.SetActive(true); wall.SetActive(false); };
+        lightSource.OnInteract += () => { UIManager.Instance.bStopShow = true; };
+        lightSource.OnEnter += () => { if (!isFirstInteract) { isFirstInteract = true; UIManager.Instance.PopF(-1); } };
         GameObject go = new GameObject("TempCameraFollowTarget");
         go.transform.position = PlayerController.Instance.transform.position + new Vector3(15, 0, 0);
         cc.SetFollowTarget(go.transform);

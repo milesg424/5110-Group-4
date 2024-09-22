@@ -7,6 +7,7 @@ public class Interactable : MonoBehaviour
 {
     Material outLine;
     public Action OnInteract;
+    public Action OnEnter;
 
     protected bool isInteracting;
 
@@ -47,6 +48,7 @@ public class Interactable : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             SetOutlineThickness(0.015f);
+            OnEnter?.Invoke();
             isInteracting = true;
         }
     }

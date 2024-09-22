@@ -11,7 +11,14 @@ public class WallDistanceCheck : MonoBehaviour
     Color origin;
     float extendX;
     float extendZ;
+
+    static bool isFirstCollider;
     // Start is called before the first frame update
+
+    private void Awake()
+    {
+        WallDistanceCheck.isFirstCollider = true;
+    }
     void Start()
     {
         pc = PlayerController.Instance;
@@ -42,6 +49,18 @@ public class WallDistanceCheck : MonoBehaviour
             float multiplier = map(actualSize, actualCam, actualCam + 20, 0.05f, 1);
             multiplier = 1 - multiplier;
             mt.SetColor("_Color", origin * multiplier);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if (isFirstCollider)
+            {
+                WallDistanceCheck.isFirstCollider = false;
+                UIManager.Instance.PopQE(3);
+            }
         }
     }
 
