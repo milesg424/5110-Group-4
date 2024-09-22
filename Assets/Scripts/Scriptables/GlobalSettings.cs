@@ -17,6 +17,12 @@ public class GSettings : ScriptableObject
     public float playerRangeBeforeLightUp;
     [Rename("与光源互动前的玩家自身周边光照范围")]
     public float playerRangeAfterLightUp;
+    [Rename("第三关开头光源移速")]
+    public float lightSourceSpeedLevelThree;
+    [Rename("第2关开头玩家定身时长")]
+    public float stopMovingSecond;
+    [Rename("第3关开头玩家定身时长")]
+    public float stopMovingThird;
 
 
 
@@ -79,6 +85,8 @@ public class GSettings : ScriptableObject
     public float HorizontalOffset;
     [Rename("第二人称摄像机大小")]
     public float cameraSize;
+    [Rename("第二人称摄像机剔除距离")]
+    public float cameraNearPlane;
 
 
 

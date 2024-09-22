@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class SeeThroughHandler : MonoBehaviour
 {
@@ -66,7 +65,7 @@ public class SeeThroughHandler : MonoBehaviour
                 continue;
             }
 
-            alpha = Mathf.Lerp(alpha, 1, Time.deltaTime * 2);
+            alpha = Mathf.Lerp(alpha, 1, Time.deltaTime * 10);
             outMats[i].materials[0].SetFloat("_Alpha", alpha);
             //outMats[i].materials[1].SetFloat("_Alpha", alpha);
         }
@@ -76,14 +75,18 @@ public class SeeThroughHandler : MonoBehaviour
     {
         if (other.CompareTag("Wall") || other.CompareTag("Breakable"))
         {
-            if (!obstacleMats.Contains(other.GetComponent<MeshRenderer>()))
+            if (other.GetComponent<MeshRenderer>() != null)
             {
-                obstacleMats.Add(other.GetComponent<MeshRenderer>());
-                if (outMats.Contains(other.GetComponent<MeshRenderer>()))
+                if (!obstacleMats.Contains(other.GetComponent<MeshRenderer>()))
                 {
-                    outMats.Remove(other.GetComponent<MeshRenderer>());
+                    obstacleMats.Add(other.GetComponent<MeshRenderer>());
+                    if (outMats.Contains(other.GetComponent<MeshRenderer>()))
+                    {
+                        outMats.Remove(other.GetComponent<MeshRenderer>());
+                    }
                 }
             }
+
         }
     }
 
@@ -91,10 +94,13 @@ public class SeeThroughHandler : MonoBehaviour
     {
         if (other.CompareTag("Wall") || other.CompareTag("Breakable"))
         {
-            if (obstacleMats.Contains(other.GetComponent<MeshRenderer>()))
+            if (other.GetComponent<MeshRenderer>() != null)
             {
-                obstacleMats.Remove(other.GetComponent<MeshRenderer>());
-                outMats.Add(other.GetComponent<MeshRenderer>());
+                if (obstacleMats.Contains(other.GetComponent<MeshRenderer>()))
+                {
+                    obstacleMats.Remove(other.GetComponent<MeshRenderer>());
+                    outMats.Add(other.GetComponent<MeshRenderer>());
+                }
             }
         }
     }

@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour
     float xRotation;
 
     Vector2[] facingLogic;
-    CinemachineVirtualCamera vCam;
+    [HideInInspector] public CinemachineVirtualCamera vCam;
     CinemachineTransposer transposer;
     GSettings settings;
     private void Start()
@@ -25,6 +25,7 @@ public class CameraController : MonoBehaviour
         vCam.Follow = PlayerController.Instance.transform;
         vCam.m_Lens.OrthographicSize = settings.cameraSize;
         vCam.m_Lens.FieldOfView = settings.cameraFOV;
+        vCam.m_Lens.NearClipPlane = settings.cameraNearPlane;
 
         transposer = vCam.GetCinemachineComponent<CinemachineTransposer>();
         transposer.m_FollowOffset = new Vector3(0, settings.YOffset, -settings.HorizontalOffset);

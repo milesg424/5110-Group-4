@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
             }
             CrashWall();
         }
-        CheckInteractable();
+        //CheckInteractable();
     }
 
     IEnumerator IResetRotation()
@@ -183,56 +183,56 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void CheckInteractable()
-    {
+    //void CheckInteractable()
+    //{
 
-        RaycastHit hit;
-        Vector3 direction = Vector3.zero;
-        switch (currentFacingDirection)
-        {
-            case 1:
-                direction = Vector3.forward;
-                break;
-            case 4:
-                direction = Vector3.right;
-                break;
-            default:
-                break;
-        }
-        Interactable interactable = null;
+    //    RaycastHit hit;
+    //    Vector3 direction = Vector3.zero;
+    //    switch (currentFacingDirection)
+    //    {
+    //        case 1:
+    //            direction = Vector3.forward;
+    //            break;
+    //        case 4:
+    //            direction = Vector3.right;
+    //            break;
+    //        default:
+    //            break;
+    //    }
+    //    Interactable interactable = null;
 
-        if (isThirdPerson)
-        {
-            if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out hit, 1000, LayerMask.GetMask("Interactable") | LayerMask.GetMask("Wall")))
-            {
-                interactable = hit.transform.GetComponent<Interactable>();
-            }
-        }
-        else if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), direction, out hit, 1000, LayerMask.GetMask("Interactable") | LayerMask.GetMask("Wall")))
-        {
-            interactable = hit.transform.GetComponent<Interactable>();
-        }
+    //    if (isThirdPerson)
+    //    {
+    //        if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out hit, 1000, LayerMask.GetMask("Interactable") | LayerMask.GetMask("Wall")))
+    //        {
+    //            interactable = hit.transform.GetComponent<Interactable>();
+    //        }
+    //    }
+    //    else if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), direction, out hit, 1000, LayerMask.GetMask("Interactable") | LayerMask.GetMask("Wall")))
+    //    {
+    //        interactable = hit.transform.GetComponent<Interactable>();
+    //    }
 
-        if (interactable != null)
-        {
-            if (lastInteracting != null && lastInteracting != this)
-            {
-                lastInteracting.SetOutlineThickness(0);
-            }
-            lastInteracting = interactable;
-            lastInteracting.SetOutlineThickness(0.015f);
-            if (Input.GetButtonDown("Interact"))
-            {
-                interactable.Interact();
-            }
-        }
-        else if (lastInteracting != null)
-        {
-            lastInteracting.SetOutlineThickness(0);
-            lastInteracting = null;
-        }
+    //    if (interactable != null)
+    //    {
+    //        if (lastInteracting != null && lastInteracting != this)
+    //        {
+    //            lastInteracting.SetOutlineThickness(0);
+    //        }
+    //        lastInteracting = interactable;
+    //        lastInteracting.SetOutlineThickness(0.015f);
+    //        if (Input.GetButtonDown("Interact"))
+    //        {
+    //            interactable.Interact();
+    //        }
+    //    }
+    //    else if (lastInteracting != null)
+    //    {
+    //        lastInteracting.SetOutlineThickness(0);
+    //        lastInteracting = null;
+    //    }
 
-    }
+    //}
 
     void CrashWall()
     {

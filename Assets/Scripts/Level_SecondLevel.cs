@@ -9,6 +9,8 @@ public class Level_SecondLevel : MonoBehaviour
 {
     [SerializeField] GameObject fakeShadow;
     [SerializeField] GameObject helpPuzzle;
+    [SerializeField] GameObject wall1;
+    [SerializeField] GameObject wall2;
 
     bool isFirstPuzzleSolved;
     bool isTriggeredFirstPuzzle;
@@ -21,7 +23,7 @@ public class Level_SecondLevel : MonoBehaviour
     void Start()
     {
         settings = GameManager.Instance.settings;
-        PlayerController.Instance.SetPlayerCanMove(3);
+        PlayerController.Instance.SetPlayerCanMove(settings.stopMovingSecond);
 
         BlackOutHandler.Instance.SetAlpha(0.995f);
         BlackOutHandler.Instance.SetPosition(1, Vector3.zero);
@@ -72,6 +74,8 @@ public class Level_SecondLevel : MonoBehaviour
     {
         isTriggeredFirstPuzzle = true;
         PlayerController.Instance.canMove = false;
+        wall1.SetActive(true);
+        wall2.SetActive(true);
         cc.Follow(lightSource.transform);
         yield return new WaitForSeconds(3);
         PlayerController.Instance.canMove = true;
@@ -81,6 +85,8 @@ public class Level_SecondLevel : MonoBehaviour
     IEnumerator ICompleteHelpPuzzle()
     {
         isFirstPuzzleSolved = true;
+        wall1.SetActive(false);
+        wall2.SetActive(false);
         cc.Follow(PlayerController.Instance.transform);
         float alpha = shadowSprite.color.a;
         while (alpha > 0.01f)

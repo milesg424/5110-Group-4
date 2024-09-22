@@ -16,6 +16,9 @@ MonoBehaviour:
   lightSourceRangeAfterLightUp: 25
   playerRangeBeforeLightUp: 10
   playerRangeAfterLightUp: 10
+  lightSourceSpeedLevelThree: 15
+  stopMovingSecond: 5
+  stopMovingThird: 5
   playerSpeed: 5
   playerJumpHeight: 20
   horzontalForce: 10
@@ -37,5 +40,6 @@ MonoBehaviour:
   YOffset: 5
   HorizontalOffset: 10
   cameraSize: 10
+  cameraNearPlane: -15
   help_Timer: 1
   help_Offset: 0.15

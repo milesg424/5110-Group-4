@@ -68,6 +68,12 @@ public class BlackOutHandler : MonoBehaviour
         return material.GetFloat(temp);
     }
 
+    public void SetFadeOutSize(int index, float size)
+    {
+        string temp = "_FadeOutSize" + index.ToString();
+        material.SetFloat(temp, size);
+    }
+
     public void FirstLevelInit()
     {
 

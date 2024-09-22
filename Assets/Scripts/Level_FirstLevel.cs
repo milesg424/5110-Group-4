@@ -8,6 +8,8 @@ using UnityEngine.Rendering.Universal;
 public class Level_FirstLevel : MonoBehaviour
 {
     [SerializeField] float playerFreezTimeWhenTouchLight;
+    [SerializeField] GameObject nextLevel;
+    [SerializeField] GameObject wall;
     LightSource lightSource;
 
     GSettings settings;
@@ -19,6 +21,7 @@ public class Level_FirstLevel : MonoBehaviour
         CameraController cc = FindObjectOfType<CameraController>();
         lightSource = FindObjectOfType<LightSource>();
         lightSource.OnInteract += () => { StartCoroutine(IInteractWithLight()); };
+        lightSource.OnInteract += () => { nextLevel.SetActive(true); wall.SetActive(false); };
         GameObject go = new GameObject("TempCameraFollowTarget");
         go.transform.position = PlayerController.Instance.transform.position + new Vector3(15, 0, 0);
         cc.SetFollowTarget(go.transform);

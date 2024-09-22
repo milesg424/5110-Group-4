@@ -8,6 +8,8 @@ public class Interactable : MonoBehaviour
     Material outLine;
     public Action OnInteract;
 
+    protected bool isInteracting;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -21,6 +23,10 @@ public class Interactable : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
+        if (Input.GetButtonDown("Interact") && isInteracting)
+        {
+            Interact();
+        }
     }
 
     public virtual void Interact()
@@ -33,6 +39,24 @@ public class Interactable : MonoBehaviour
         if (outLine != null)
         {
             outLine.SetFloat("_OutlineThickness", thickness);
+        }
+    }
+
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            SetOutlineThickness(0.015f);
+            isInteracting = true;
+        }
+    }
+
+    protected virtual void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            SetOutlineThickness(0);
+            isInteracting = false;
         }
     }
 }
