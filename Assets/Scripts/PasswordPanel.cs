@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.DebugUI;
 
 public class PasswordPanel : Interactable
 {
     PasswordKeyBoard panel;
+    bool canInteract;
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
         panel = FindObjectOfType<PasswordKeyBoard>(true);
+        panel.OnCorrect += () => { SetCanInteract(false); };
+        canInteract = true;
     }
 
     // Update is called once per frame
@@ -21,8 +25,44 @@ public class PasswordPanel : Interactable
 
     public override void Interact()
     {
-        panel.gameObject.SetActive(true);
+        if (canInteract)
+        {
+            panel.gameObject.SetActive(true);
+        }
+        else
+        {
+            SceneManager.LoadScene("Level4");
+        }
     }
 
+    protected override void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (canInteract)
+            {
+                SetOutlineThickness(0.015f);
+            }
+            OnEnter?.Invoke();
+            isInteracting = true;
+        }
+    }
 
+    protected override void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (canInteract)
+            {
+                SetOutlineThickness(0);
+            }
+            OnEnter?.Invoke();
+            isInteracting = true;
+        }
+    }
+
+    void SetCanInteract(bool b)
+    {
+        canInteract = b;
+    }
 }

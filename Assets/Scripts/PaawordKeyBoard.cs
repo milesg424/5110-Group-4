@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -17,6 +18,8 @@ public class PasswordKeyBoard : MonoBehaviour
     List<PasswordNumber> showNumbers;
     List<int> enteredNumber;
     int MaxInput;
+    bool bIsCorrect;
+    public Action OnCorrect;
 
     GSettings settings;
     // Start is called before the first frame update
@@ -42,14 +45,18 @@ public class PasswordKeyBoard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("Cancel"))
+        if (!bIsCorrect)
         {
-            Time.timeScale = 1;
-            animator.Play("Anim_WindowShutDown");
+            if (Input.GetButton("Cancel"))
+            {
+                Time.timeScale = 1;
+                animator.Play("Anim_WindowShutDown");
 
-            gameObject.SetActive(false);
+                gameObject.SetActive(false);
+            }
+            ReceiveInput();
         }
-        ReceiveInput();
+
     }
 
     private void OnEnable()
@@ -120,12 +127,21 @@ public class PasswordKeyBoard : MonoBehaviour
             }
             if (pass == settings.password)
             {
-                Debug.Log("Correct");
+                StartCoroutine(ICorrect());
+                OnCorrect?.Invoke();
             }
             else
             {
-                Debug.Log("Incorrect" + pass);
+                Debug.Log("Incorrect");
             }
         }
+    }
+
+    IEnumerator ICorrect()
+    {
+        bIsCorrect = true;
+        yield return new WaitForSecondsRealtime(2);
+        Time.timeScale = 1;
+        gameObject.SetActive(false);
     }
 }

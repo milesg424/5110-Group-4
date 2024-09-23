@@ -6,6 +6,7 @@ using UnityEngine;
 public class Level_ThridLevel : MonoBehaviour
 {
     [SerializeField] Transform sceneStartTarget;
+    [SerializeField] Transform triggerPoint;
 
     LightSource lightSource;
     CameraController cc;
@@ -15,6 +16,8 @@ public class Level_ThridLevel : MonoBehaviour
     float camFollowPlayerSpeed = 5;//used only for the beginning because when camera move from center to follow player, the black out range will be wiggle strongly if this value is too small;
     float originalLightSpeed;
     float originalCamSize;
+
+    bool isTriggered;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +53,8 @@ public class Level_ThridLevel : MonoBehaviour
         BlackOutHandler.Instance.SetPosition(2, vigCenter2);
         BlackOutHandler.Instance.SetRange(1, settings.playerRangeAfterLightUp * (settings.cameraSize / cc.vCam.m_Lens.OrthographicSize));
         BlackOutHandler.Instance.SetRange(2, settings.lightSourceRangeAfterLightUp + 5f);
+
+        CheckPlayerOnTrigger();
     }
 
     IEnumerator ISceneStart()
@@ -81,5 +86,26 @@ public class Level_ThridLevel : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         vcam.m_Lens.OrthographicSize = size;
+    }
+
+    void CheckPlayerOnTrigger()
+    {
+        if (Mathf.Abs(PlayerController.Instance.transform.position.x - triggerPoint.transform.position.x) < 0.2f && !isTriggered)
+        {
+            isTriggered = true;
+            StartCoroutine(ITrigger());
+        }
+    }
+
+    IEnumerator ITrigger()
+    {
+        PlayerController.Instance.SetPlayerCanMove(5);
+        cc.Follow(lightSource.transform);
+        cc.canRotate = false;
+        lightSource.GoToNextRelayPoint();
+        lightSource.isUseMaxDistance = true;
+        yield return new WaitForSeconds(5);
+        cc.Follow(PlayerController.Instance.transform);
+        cc.canRotate = true;
     }
 }

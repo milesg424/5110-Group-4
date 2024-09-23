@@ -33,7 +33,7 @@ MonoBehaviour:
   verticalKnockBackForce: 15
   maxDistanceBetweenPlayer: 10
   lightSourceMoveSpeed: 5.05
-  password: 999999
+  password: 31823675
   thirdPersonCameraSensitive: 200
   cameraFOV: 70
   CameraRotateSpeed: 10
