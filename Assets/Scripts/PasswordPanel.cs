@@ -6,14 +6,16 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class PasswordPanel : Interactable
 {
+    GameObject correctEffect;
     PasswordKeyBoard panel;
     bool canInteract;
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
+        correctEffect = transform.Find("Cone").gameObject;
         panel = FindObjectOfType<PasswordKeyBoard>(true);
-        panel.OnCorrect += () => { SetCanInteract(false); };
+        panel.OnCorrect += () => { SetCanInteract(false); correctEffect.SetActive(true); };
         canInteract = true;
     }
 

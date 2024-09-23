@@ -7,6 +7,11 @@ public class Level_ThridLevel : MonoBehaviour
 {
     [SerializeField] Transform sceneStartTarget;
     [SerializeField] Transform triggerPoint;
+    [SerializeField] Transform triggerPoint2;
+    [SerializeField] GameObject collider;
+    [SerializeField] GameObject collider2;
+    [SerializeField] GameObject obstacles;
+    [SerializeField] GameObject lms;
 
     LightSource lightSource;
     CameraController cc;
@@ -18,6 +23,7 @@ public class Level_ThridLevel : MonoBehaviour
     float originalCamSize;
 
     bool isTriggered;
+    bool isTriggered2;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +43,7 @@ public class Level_ThridLevel : MonoBehaviour
         BlackOutHandler.Instance.SetRange(2, settings.lightSourceRangeAfterLightUp + 5f);
 
         cc = FindObjectOfType<CameraController>();
+        cc.canSwith3D = false;
         originalCamSize = cc.vCam.m_Lens.OrthographicSize;
 
         StartCoroutine(ISceneStart());
@@ -95,6 +102,14 @@ public class Level_ThridLevel : MonoBehaviour
             isTriggered = true;
             StartCoroutine(ITrigger());
         }
+        if (Mathf.Abs(PlayerController.Instance.transform.position.x - triggerPoint2.transform.position.x) < 0.2f && !isTriggered2)
+        {
+            isTriggered2 = true;
+            collider2.SetActive(true);
+            obstacles.SetActive(false);
+            lms.SetActive(false);
+            cc.vCam.m_Lens.NearClipPlane = -100;
+        }
     }
 
     IEnumerator ITrigger()
@@ -102,8 +117,12 @@ public class Level_ThridLevel : MonoBehaviour
         PlayerController.Instance.SetPlayerCanMove(5);
         cc.Follow(lightSource.transform);
         cc.canRotate = false;
+
         lightSource.GoToNextRelayPoint();
         lightSource.isUseMaxDistance = true;
+
+        collider.SetActive(true);
+        cc.GetComponent<CinemachineCollider>().enabled = true;
         yield return new WaitForSeconds(5);
         cc.Follow(PlayerController.Instance.transform);
         cc.canRotate = true;

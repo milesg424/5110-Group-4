@@ -30,6 +30,7 @@ public class BlackOutHandler : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         material = new Material(blackMat);
         rf.settings.blitMaterial = material;
+        rf.Create();
     }
 
     public void SetAlpha(float alpha)
@@ -83,7 +84,7 @@ public class BlackOutHandler : MonoBehaviour
     {
         if (mInstance == this)
         {
-            if (scene.buildIndex != 1 && scene.buildIndex != 2)
+            if (scene.buildIndex != 1 && scene.buildIndex != 2 && scene.buildIndex != 3)
             {
                 rf.settings.blitMaterial = null;
             }
