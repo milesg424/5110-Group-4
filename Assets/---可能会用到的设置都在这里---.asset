@@ -35,7 +35,7 @@ MonoBehaviour:
   lightSourceMoveSpeed: 5.05
   password: 31823675
   thirdPersonCameraSensitive: 200
-  cameraFOV: 70
+  cameraFOV: 50
   CameraRotateSpeed: 10
   YOffset: 5
   HorizontalOffset: 10
