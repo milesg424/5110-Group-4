@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class PasswordKeyBoard : MonoBehaviour
 {
@@ -13,12 +14,14 @@ public class PasswordKeyBoard : MonoBehaviour
     [SerializeField] GridLayoutGroup inputPanelNumbersGrid;
     [SerializeField] Color NumberForegroundColor;
     [SerializeField] Color NumberBackgroundColor;
+    [SerializeField] VisualEffect vfx;
 
     Animator animator;
     List<PasswordNumber> showNumbers;
     List<int> enteredNumber;
     int MaxInput;
     bool bIsCorrect;
+    bool bCanDoInput;
     public Action OnCorrect;
 
     GSettings settings;
@@ -39,13 +42,14 @@ public class PasswordKeyBoard : MonoBehaviour
             showNumbers.Add(num);
         }
         inputPanelNumbersGrid.cellSize = new Vector2(inputPanelNumbersGrid.GetComponent<RectTransform>().sizeDelta.x / MaxInput, 100);
+        bCanDoInput = true;
         UpdateInput();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!bIsCorrect)
+        if (!bIsCorrect && bCanDoInput)
         {
             if (Input.GetButton("Cancel"))
             {
@@ -117,6 +121,8 @@ public class PasswordKeyBoard : MonoBehaviour
         if (enteredNumber.Count < MaxInput)
         {
             Debug.Log("Incorrect");
+            vfx.SetVector4("Color", new Vector4(6, 0, 0, 1));
+            vfx.Play();
         }
         else
         {
@@ -129,18 +135,30 @@ public class PasswordKeyBoard : MonoBehaviour
             {
                 StartCoroutine(ICorrect());
                 OnCorrect?.Invoke();
+                vfx.SetVector4("Color", new Vector4(0, 6, 0, 1));
+                vfx.Play();
             }
             else
             {
                 Debug.Log("Incorrect");
+                vfx.SetVector4("Color", new Vector4(6, 0, 0, 1));
+                vfx.Play();
             }
         }
+        StartCoroutine(ICanDoInput());
+    }
+
+    IEnumerator ICanDoInput()
+    {
+        bCanDoInput = false;
+        yield return new WaitForSecondsRealtime(0.5f);
+        bCanDoInput = true;
     }
 
     IEnumerator ICorrect()
     {
         bIsCorrect = true;
-        yield return new WaitForSecondsRealtime(2);
+        yield return new WaitForSecondsRealtime(1);
         Time.timeScale = 1;
         gameObject.SetActive(false);
     }
