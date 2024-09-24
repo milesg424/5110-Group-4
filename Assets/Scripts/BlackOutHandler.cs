@@ -84,7 +84,7 @@ public class BlackOutHandler : MonoBehaviour
     {
         if (mInstance == this)
         {
-            if (scene.buildIndex != 1 && scene.buildIndex != 2 && scene.buildIndex != 3)
+            if (scene.buildIndex != 1 && scene.buildIndex != 2 && scene.buildIndex != 3 && scene.buildIndex != 4)
             {
                 rf.settings.blitMaterial = null;
             }
