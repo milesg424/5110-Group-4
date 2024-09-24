@@ -410,7 +410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  bodyPart: {fileID: 0}
+  bodyPart: {fileID: 1993315356}
   body: {fileID: 0}
   removeBody: {fileID: 0}
   mainBody: {fileID: 0}
@@ -10449,7 +10449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  bodyPart: {fileID: 0}
+  bodyPart: {fileID: 1851424485}
   body: {fileID: 0}
   removeBody: {fileID: 0}
   mainBody: {fileID: 0}
