@@ -42,4 +42,4 @@ MonoBehaviour:
   cameraSize: 10
   cameraNearPlane: -15
   help_Timer: 1
-  help_Offset: 0.15
+  help_Offset: 0.3
