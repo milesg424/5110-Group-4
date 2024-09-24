@@ -336,11 +336,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b441d880d87b5c845bb6f458212702eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
-  bodyPart: {fileID: 0}
-  body: {fileID: 0}
-  removeBody: {fileID: 0}
-  mainBody: {fileID: 0}
+  type: 3
+  bodyPart: {fileID: 1851424485}
+  body: {fileID: 705593771}
+  removeBody: {fileID: 2129448937}
+  mainBody: {fileID: 705593771}
 --- !u!1 &23544148
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,10 +409,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b441d880d87b5c845bb6f458212702eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
-  bodyPart: {fileID: 1993315356}
+  type: 1
+  bodyPart: {fileID: 1569445609}
   body: {fileID: 0}
-  removeBody: {fileID: 0}
+  removeBody: {fileID: 23544148}
   mainBody: {fileID: 0}
 --- !u!1 &31373564
 GameObject:
@@ -5359,11 +5359,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b441d880d87b5c845bb6f458212702eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
-  bodyPart: {fileID: 0}
-  body: {fileID: 0}
-  removeBody: {fileID: 0}
-  mainBody: {fileID: 0}
+  type: 4
+  bodyPart: {fileID: 1993315356}
+  body: {fileID: 705593771}
+  removeBody: {fileID: 2129448937}
+  mainBody: {fileID: 705593771}
 --- !u!1 &611567086
 GameObject:
   m_ObjectHideFlags: 0
@@ -8808,9 +8808,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b441d880d87b5c845bb6f458212702eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
-  bodyPart: {fileID: 0}
-  body: {fileID: 0}
+  type: 6
+  bodyPart: {fileID: 1561191553}
+  body: {fileID: 489809852}
   removeBody: {fileID: 0}
   mainBody: {fileID: 0}
 --- !u!4 &1013923970 stripped
@@ -10448,10 +10448,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b441d880d87b5c845bb6f458212702eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
-  bodyPart: {fileID: 1851424485}
+  type: 2
+  bodyPart: {fileID: 814895341}
   body: {fileID: 0}
-  removeBody: {fileID: 0}
+  removeBody: {fileID: 1220362098}
   mainBody: {fileID: 0}
 --- !u!1 &1241739551
 GameObject:
@@ -13006,6 +13006,11 @@ Transform:
   - {fileID: 2008692864}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1561191553 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8749345731352745963, guid: 2f7868e7a998a47478ad5d6164a833b1, type: 3}
+  m_PrefabInstance: {fileID: 1826656024}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1563400507
 GameObject:
   m_ObjectHideFlags: 0
@@ -15583,9 +15588,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  bodyPart: {fileID: 0}
+  bodyPart: {fileID: 2109092355}
   body: {fileID: 0}
-  removeBody: {fileID: 0}
+  removeBody: {fileID: 1921379064}
   mainBody: {fileID: 0}
 --- !u!65 &1921379067
 BoxCollider:
@@ -15858,7 +15863,7 @@ GameObject:
   - component: {fileID: 1964506990}
   - component: {fileID: 1964506989}
   - component: {fileID: 1964506988}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (11)
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -17515,6 +17520,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85336dace93ef2847936f2976cf2f16f, type: 3}
+--- !u!1 &2109092355 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 809e5878e47b9e540b295c9f2f2fcb83, type: 3}
+  m_PrefabInstance: {fileID: 160059933}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2113601014
 GameObject:
   m_ObjectHideFlags: 0
@@ -17816,6 +17826,11 @@ Transform:
   - {fileID: 1302992458}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -21.713, y: 4.594, z: -0.761}
+--- !u!1 &2129448937 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6986785968012769930, guid: 2f7868e7a998a47478ad5d6164a833b1, type: 3}
+  m_PrefabInstance: {fileID: 1826656024}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2130452106 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 02821e63b21b06044a6c3df8de43a8e8, type: 3}
