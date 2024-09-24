@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] GameObject adButton;
+    [SerializeField] GameObject shiftadButton;
     [SerializeField] GameObject fButton;
     [SerializeField] GameObject qeButton;
     [SerializeField] Image tipBg;
@@ -63,6 +64,11 @@ public class UIManager : MonoBehaviour
     public void PopQE(float timer)
     {
         Pop(qeButton, timer);
+    }
+
+    public void PopShiftAD(float timer)
+    {
+        Pop(shiftadButton, timer);
     }
 
     IEnumerator IShowButton(GameObject content, float timer)

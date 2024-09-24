@@ -3456,14 +3456,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PasswordPanel
       objectReference: {fileID: 0}
-    - target: {fileID: 3992038367780201318, guid: 272e95244d16a464ea0b5620d080e5c6, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4986513874170832201, guid: 272e95244d16a464ea0b5620d080e5c6, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6147862730044183375, guid: 272e95244d16a464ea0b5620d080e5c6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 88.92

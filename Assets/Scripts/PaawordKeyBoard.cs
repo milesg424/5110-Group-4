@@ -53,7 +53,6 @@ public class PasswordKeyBoard : MonoBehaviour
         {
             if (Input.GetButton("Cancel"))
             {
-                Time.timeScale = 1;
                 animator.Play("Anim_WindowShutDown");
 
                 gameObject.SetActive(false);
@@ -65,7 +64,6 @@ public class PasswordKeyBoard : MonoBehaviour
 
     private void OnEnable()
     {
-        Time.timeScale = 0;
         if (animator == null)
         {
             animator = GetComponent<Animator>();
@@ -159,7 +157,6 @@ public class PasswordKeyBoard : MonoBehaviour
     {
         bIsCorrect = true;
         yield return new WaitForSecondsRealtime(1);
-        Time.timeScale = 1;
         gameObject.SetActive(false);
     }
 }

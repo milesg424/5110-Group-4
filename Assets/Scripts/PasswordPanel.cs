@@ -9,6 +9,7 @@ public class PasswordPanel : Interactable
     GameObject correctEffect;
     PasswordKeyBoard panel;
     bool canInteract;
+    bool isFirstInteract;
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -16,7 +17,9 @@ public class PasswordPanel : Interactable
         correctEffect = transform.Find("Cone").gameObject;
         panel = FindObjectOfType<PasswordKeyBoard>(true);
         panel.OnCorrect += () => { SetCanInteract(false); correctEffect.SetActive(true); };
+        panel.OnCorrect += () => { StartCoroutine(IPopF(1f)); };
         canInteract = true;
+        isFirstInteract = true;
     }
 
     // Update is called once per frame
@@ -47,6 +50,12 @@ public class PasswordPanel : Interactable
             }
             OnEnter?.Invoke();
             isInteracting = true;
+
+            if (isFirstInteract)
+            {
+                UIManager.Instance.PopF(1.5f);
+                isFirstInteract = false;
+            }
         }
     }
 
@@ -66,5 +75,11 @@ public class PasswordPanel : Interactable
     void SetCanInteract(bool b)
     {
         canInteract = b;
+    }
+
+    IEnumerator IPopF(float timer)
+    {
+        yield return new WaitForSeconds(timer);
+        UIManager.Instance.PopF(1.5f);
     }
 }
