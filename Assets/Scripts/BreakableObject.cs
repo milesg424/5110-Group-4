@@ -5,20 +5,11 @@ using UnityEngine.VFX;
 
 public class BreakableObject : MonoBehaviour
 {
-    [SerializeField] VisualEffect breakEffect;
     public int cubesPerAxis = 10;
     public float delay = 1f;
     public float force = 300f;
     public float radius = 2f;
     public Vector3 cubeScale;
-    public void InstantiateParticle(Vector3 pos, Quaternion rot)
-    {
-        breakEffect.gameObject.SetActive(true);
-        breakEffect.transform.SetParent(null);
-        breakEffect.transform.position = pos;
-        breakEffect.transform.rotation = rot;
-        Destroy(breakEffect.gameObject, 1);
-    }
 
     public void Break()
     {
@@ -34,6 +25,7 @@ public class BreakableObject : MonoBehaviour
                 }
             }
         }
+        Destroy(gameObject);
     }
 
   
@@ -41,12 +33,14 @@ public class BreakableObject : MonoBehaviour
     {
         GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
         Renderer rd = cube.GetComponent<Renderer>();
+        Physics.IgnoreCollision(PlayerController.Instance.GetComponent<CapsuleCollider>(), cube.GetComponent<Collider>());
+        cube.AddComponent<RemoveCube>();
         rd.material = GetComponent<Renderer>().material;
         cube.transform.localScale = cubeScale;
         Vector3 firstCube = transform.position - cubeScale / 2 + cube.transform.localScale / 2;
         cube.transform.position = firstCube + Vector3.Scale(position, cube.transform.localScale);
         Rigidbody rb = cube.AddComponent<Rigidbody>();
-        rb.AddExplosionForce(force, transform.position, radius);
+        rb.AddExplosionForce(force, PlayerController.Instance.transform.position, radius);
 
     }
     private void OnTriggerEnter(Collider other)

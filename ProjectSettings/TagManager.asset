@@ -18,8 +18,8 @@ TagManager:
   - Interactable
   - Wall
   - WorldUI
-  - 
-  - 
+  - CameraWall
+  - Player
   - 
   - 
   - 

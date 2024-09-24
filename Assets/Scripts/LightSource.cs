@@ -27,6 +27,8 @@ public class LightSource : Interactable
     bool isHided;
     float currentIntensity;
     int currentRelayPoint = 0;
+    public int moveDirection;
+    public bool doHide;
 
     float lastAmount;
 
@@ -39,7 +41,7 @@ public class LightSource : Interactable
         SetOverallIntensity(lightIntensityBeforeInteract);
         currentIntensity = lightIntensityBeforeInteract;
         //floatingCoroutine = StartCoroutine(IFloating());
-
+        doHide = true;
     }
 
     // Update is called once per frame
@@ -134,47 +136,96 @@ public class LightSource : Interactable
     {
 
         yield return new WaitForSeconds(waitTime);
-        while (targetPos.position.x - transform.position.x > 0.1f)
+        if (moveDirection == 0)
         {
-            if (relayPoints != null && relayPoints.Count > 0 && currentRelayPoint < relayPoints.Count)
+            while (targetPos.position.x - transform.position.x > 0.1f)
             {
-                if (Mathf.Abs(transform.position.x - relayPoints[currentRelayPoint].position.x) < 5)
+                if (relayPoints != null && relayPoints.Count > 0 && currentRelayPoint < relayPoints.Count)
                 {
-                    if (!isHiding)
+                    if (Mathf.Abs(transform.position.x - relayPoints[currentRelayPoint].position.x) < 5)
                     {
-                        isHiding = true;
-                        //StopCoroutine(floatingCoroutine);
-                        StartCoroutine(IDisapear());
-                    }
+                        if (!isHiding)
+                        {
+                            isHiding = true;
+                            //StopCoroutine(floatingCoroutine);
+                            StartCoroutine(IDisapear());
+                        }
 
-                    if (Vector3.Distance(new Vector3(relayPoints[currentRelayPoint].position.x, relayPoints[currentRelayPoint].position.y, 0), new Vector3(transform.position.x, transform.position.y, 0)) < 0.1f)
-                    {
-                        rb.velocity = Vector3.zero;
-                        yield return new WaitForEndOfFrame();
-                        continue;
-                    }
-                    else
-                    {
-                        Vector3 dir = new Vector3(relayPoints[currentRelayPoint].position.x, relayPoints[currentRelayPoint].position.y, 0) - new Vector3(transform.position.x, transform.position.y, 0);
-                        dir = dir.normalized;
-                        rb.velocity = Vector3.Lerp(rb.velocity, dir * settings.lightSourceMoveSpeed, Time.deltaTime * 2);
-                        yield return new WaitForEndOfFrame();
-                        continue;
+                        if (Vector3.Distance(new Vector3(relayPoints[currentRelayPoint].position.x, relayPoints[currentRelayPoint].position.y, 0), new Vector3(transform.position.x, transform.position.y, 0)) < 0.1f)
+                        {
+                            rb.velocity = Vector3.zero;
+                            yield return new WaitForEndOfFrame();
+                            continue;
+                        }
+                        else
+                        {
+                            Vector3 dir = new Vector3(relayPoints[currentRelayPoint].position.x, relayPoints[currentRelayPoint].position.y, 0) - new Vector3(transform.position.x, transform.position.y, 0);
+                            dir = dir.normalized;
+                            rb.velocity = Vector3.Lerp(rb.velocity, dir * settings.lightSourceMoveSpeed, Time.deltaTime * 2);
+                            yield return new WaitForEndOfFrame();
+                            continue;
+                        }
                     }
                 }
+                if (isUseMaxDistance && transform.position.x - PlayerController.Instance.transform.position.x > settings.maxDistanceBetweenPlayer)
+                {
+                    rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * 2);
+                }
+                else
+                {
+                    Vector3 dir = new Vector3(targetPos.position.x, targetPos.position.y, 0) - new Vector3(transform.position.x, transform.position.y, 0);
+                    dir = dir.normalized;
+                    rb.velocity = Vector3.Lerp(rb.velocity, dir * settings.lightSourceMoveSpeed, Time.deltaTime * 2);
+                }
+                yield return new WaitForEndOfFrame();
             }
-            if (isUseMaxDistance && transform.position.x - PlayerController.Instance.transform.position.x > settings.maxDistanceBetweenPlayer)
-            {
-                rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * 2);
-            }
-            else
-            {
-                Vector3 dir = new Vector3(targetPos.position.x, targetPos.position.y, 0) - new Vector3(transform.position.x, transform.position.y, 0);
-                dir = dir.normalized;
-                rb.velocity = Vector3.Lerp(rb.velocity, dir * settings.lightSourceMoveSpeed, Time.deltaTime * 2);
-            }
-            yield return new WaitForEndOfFrame();
         }
+        else
+        {
+            while (targetPos.position.z - transform.position.z < -0.1f)
+            {
+                if (relayPoints != null && relayPoints.Count > 0 && currentRelayPoint < relayPoints.Count)
+                {
+                    if (Mathf.Abs(transform.position.z - relayPoints[currentRelayPoint].position.z) < 5)
+                    {
+                        if (!isHiding && doHide)
+                        {
+                            isHiding = true;
+                            //StopCoroutine(floatingCoroutine);
+                            StartCoroutine(IDisapear());
+                        }
+
+                        if (Vector3.Distance(new Vector3(0, relayPoints[currentRelayPoint].position.y, relayPoints[currentRelayPoint].position.z), new Vector3(0, transform.position.y, transform.position.z)) < 1f)
+                        {
+                            rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * 5);
+                            //rb.velocity = Vector3.zero;
+                            yield return new WaitForEndOfFrame();
+                            continue;
+                        }
+                        else
+                        {
+                            Vector3 dir = new Vector3(0, relayPoints[currentRelayPoint].position.y, relayPoints[currentRelayPoint].position.z) - new Vector3(0, transform.position.y, transform.position.z);
+                            dir = dir.normalized;
+                            rb.velocity = Vector3.Lerp(rb.velocity, dir * settings.lightSourceMoveSpeed, Time.deltaTime * 2);
+                            yield return new WaitForEndOfFrame();
+                            continue;
+                        }
+                    }
+                }
+                if (isUseMaxDistance && transform.position.z - PlayerController.Instance.transform.position.z < -settings.maxDistanceBetweenPlayer)
+                {
+                    rb.velocity = Vector3.Lerp(rb.velocity, Vector3.zero, Time.deltaTime * 2);
+                }
+                else
+                {
+                    Vector3 dir = new Vector3(0, targetPos.position.y, targetPos.position.z) - new Vector3(0, transform.position.y, transform.position.z);
+                    dir = dir.normalized;
+                    rb.velocity = Vector3.Lerp(rb.velocity, dir * settings.lightSourceMoveSpeed, Time.deltaTime * 2);
+                }
+                yield return new WaitForEndOfFrame();
+            }
+        }
+
 
         while (rb.velocity.magnitude > 0.1f)
         {

@@ -196,7 +196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   adButton: {fileID: 7469755781092661463}
-  shiftadButton: {fileID: 0}
+  shiftadButton: {fileID: 7848208809126874886}
   fButton: {fileID: 7043625211473099512}
   qeButton: {fileID: 5845853437975455336}
   tipBg: {fileID: 7915218502526260682}
@@ -279,7 +279,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3937491815369406895, guid: b14139ecf97de1a4e9aad5b84b8555b2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3937491815369406895, guid: b14139ecf97de1a4e9aad5b84b8555b2, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -912,5 +912,10 @@ PrefabInstance:
 --- !u!224 &5849729176881383868 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3937491815369406895, guid: b14139ecf97de1a4e9aad5b84b8555b2, type: 3}
+  m_PrefabInstance: {fileID: 7460967325636309011}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7848208809126874886 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 819899310639447829, guid: b14139ecf97de1a4e9aad5b84b8555b2, type: 3}
   m_PrefabInstance: {fileID: 7460967325636309011}
   m_PrefabAsset: {fileID: 0}

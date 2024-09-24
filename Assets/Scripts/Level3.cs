@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Level_ThridLevel : MonoBehaviour
+public class Level3 : MonoBehaviour
 {
     [SerializeField] Transform sceneStartTarget;
     [SerializeField] Transform triggerPoint;

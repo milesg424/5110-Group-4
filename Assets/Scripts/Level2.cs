@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TextCore.Text;
 
-public class Level_SecondLevel : MonoBehaviour
+public class Level2 : MonoBehaviour
 {
     [SerializeField] GameObject fakeShadow;
     [SerializeField] GameObject helpPuzzle;

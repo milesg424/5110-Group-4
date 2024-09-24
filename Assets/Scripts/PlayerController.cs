@@ -183,6 +183,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void SetConstantForce(Vector3 force)
+    {
+        constantForcee = force;
+    }
+
     //void CheckInteractable()
     //{
 
@@ -337,8 +342,9 @@ public class PlayerController : MonoBehaviour
             {
                 //StartCoroutine(IHitStop());
                 BreakableObject bo = collision.gameObject.GetComponent<BreakableObject>();
-                bo.InstantiateParticle(transform.position + new Vector3(0, 0, 1) * -x, Quaternion.identity);
+                //bo.InstantiateParticle(transform.position + new Vector3(0, 0, 1) * -x, Quaternion.identity);
                 bo.Break();
+                cam.Shake(2, 1, 0.3f);
                 isDashHitSomething = true;
 
             }

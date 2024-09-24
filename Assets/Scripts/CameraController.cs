@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,8 @@ public class CameraController : MonoBehaviour
     [HideInInspector] public CinemachineVirtualCamera vCam;
     CinemachineTransposer transposer;
     GSettings settings;
+
+    Coroutine shakeCoroutine;
     private void Start()
     {
         settings = GameManager.Instance.settings;
@@ -66,6 +69,19 @@ public class CameraController : MonoBehaviour
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
             transform.localRotation = Quaternion.Euler(xRotation, desiredX, 0);
         }
+    }
+
+    public void SetSideView()
+    {
+        PlayerController.Instance.currentFacingDirection = 4;
+        Vector3 rot = transform.rotation.eulerAngles;
+        rot = new Vector3(rot.x, 90, rot.z);
+        float targetX = 0;
+        float targetZ = 0;
+        targetX = facingLogic[PlayerController.Instance.currentFacingDirection - 1].x * settings.HorizontalOffset;
+        targetZ = facingLogic[PlayerController.Instance.currentFacingDirection - 1].y * settings.HorizontalOffset;
+        transposer.m_FollowOffset = new Vector3(targetX, settings.YOffset, targetZ);
+        transform.rotation = Quaternion.Euler(rot);
     }
 
     //private void FixedUpdate()
@@ -167,5 +183,39 @@ public class CameraController : MonoBehaviour
     public void Follow(Transform trans)
     {
         vCam.Follow = trans;
+    }
+
+
+    public void Shake(float amplitude = 5.0f, float frequency = 1.0f, float timer = 0.2f)
+    {
+        if (shakeCoroutine != null)
+        {
+            StopCoroutine(shakeCoroutine);
+        }
+        shakeCoroutine = StartCoroutine(IShake(amplitude, frequency, timer));
+    }
+
+    IEnumerator IShake(float amplitude, float frequency, float timer)
+    {
+        float originAmp = amplitude;
+        float originFreq = frequency;
+        float originTimer = timer;
+
+        Noise(amplitude, frequency);
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+            amplitude = Mathf.Lerp(originAmp, 0, 1 - (timer / originTimer));
+            frequency = Mathf.Lerp(originFreq, 0, 1 - (timer / originTimer));
+            Noise(amplitude, frequency);
+            yield return new WaitForEndOfFrame();
+        }
+        Noise(0, 0);
+    }
+
+    void Noise(float amplitudeGain, float frequencyGain)
+    {
+        vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = amplitudeGain;
+        vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = frequencyGain;
     }
 }

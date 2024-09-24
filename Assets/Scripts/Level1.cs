@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public class Level_FirstLevel : MonoBehaviour
+public class Level1 : MonoBehaviour
 {
     [SerializeField] float playerFreezTimeWhenTouchLight;
     [SerializeField] GameObject nextLevel;
