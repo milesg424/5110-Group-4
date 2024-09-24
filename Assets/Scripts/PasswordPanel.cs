@@ -59,7 +59,7 @@ public class PasswordPanel : Interactable
                 SetOutlineThickness(0);
             }
             OnEnter?.Invoke();
-            isInteracting = true;
+            isInteracting = false;
         }
     }
 
