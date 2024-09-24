@@ -6,6 +6,10 @@ public class LastWall : MonoBehaviour
 {
     private void OnDestroy()
     {
-        FindObjectOfType<TheForthWallLight>().Active();
+        if (FindObjectOfType<TheForthWallLight>() != null)
+        {
+            FindObjectOfType<TheForthWallLight>().Active();
+
+        }
     }
 }
