@@ -270,7 +270,7 @@ public class LightSource : Interactable
 
         while (transform.localScale.x < 0.95f)
         {
-            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one, Time.deltaTime * 1.2f);
+            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one, Time.deltaTime * 1.5f);
             yield return new WaitForEndOfFrame();
         }
         yield return new WaitForSeconds(0.5f);

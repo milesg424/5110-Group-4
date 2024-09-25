@@ -43,7 +43,7 @@ public class Level2 : MonoBehaviour
         GameObject go = Instantiate(helpPuzzle, lightSource.relayPoints[0].transform.position, Quaternion.identity);
         go.GetComponent<Puzzle_Help>().OnComplete += () => { StartCoroutine(ICompleteHelpPuzzle()); };
         go.GetComponent<Puzzle_Help>().OnComplete += () => { StartCoroutine(IIncreaseLighting()); };
-        go.GetComponent<Puzzle_Help>().OnComplete += () => { PlayerController.Instance.SetPlayerCanMove(3); };
+        go.GetComponent<Puzzle_Help>().OnComplete += () => { PlayerController.Instance.SetPlayerCanMove(5); };
         go.GetComponent<Puzzle_Help>().OnComplete += () => { lightSource.GoToNextRelayPoint(); };
         go.GetComponent<Puzzle_Help>().OnOneCharacterComplete += () => { PlayerController.Instance.SetPlayerCanMove(0.5f); };
     }
