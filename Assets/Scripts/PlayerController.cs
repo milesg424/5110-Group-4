@@ -268,10 +268,11 @@ public class PlayerController : MonoBehaviour
         float rot = settings.numberOfRotation * 360 + 90 * direction;
         while (timer > 0)
         {
-            timer = timer - Time.deltaTime < 0 ? 0 : timer - Time.deltaTime;
+            timer = timer - Time.fixedDeltaTime < 0 ? 0 : timer - Time.fixedDeltaTime;
             constantForcee = new Vector3(0, settings.jumpAnimationSpeed * timer, settings.jumpAnimationSpeed * timer * -direction);
             transform.rotation = Quaternion.Euler(new Vector3((settings.jumpAnimationTimer - timer) / settings.jumpAnimationTimer * rot, 0, 0));
-            yield return new WaitForEndOfFrame();
+            //Debug.Log((settings.jumpAnimationTimer - timer) / settings.jumpAnimationTimer);
+            yield return new WaitForFixedUpdate();
         }
         transform.rotation = Quaternion.Euler(new Vector3(rot, 0, 0));
 
@@ -327,8 +328,8 @@ public class PlayerController : MonoBehaviour
         canMove = true;
         while (Mathf.Abs(transform.rotation.eulerAngles.x) > 0.1f)
         {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity, Time.deltaTime * 20);
-            yield return new WaitForEndOfFrame();
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity, Time.fixedDeltaTime * 15);
+            yield return new WaitForFixedUpdate();
 
         }
         transform.rotation = Quaternion.identity;

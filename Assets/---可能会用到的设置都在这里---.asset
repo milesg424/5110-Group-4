@@ -15,9 +15,9 @@ MonoBehaviour:
   lightSourceRangeBeforeLightUp: 2
   lightSourceRangeAfterLightUp: 25
   playerRangeBeforeLightUp: 10
-  playerRangeAfterLightUp: 10
+  playerRangeAfterLightUp: 50
   lightSourceSpeedLevelThree: 15
-  stopMovingSecond: 5
+  stopMovingSecond: 3
   stopMovingThird: 5
   playerSpeed: 5
   playerJumpHeight: 20

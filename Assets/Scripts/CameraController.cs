@@ -66,7 +66,7 @@ public class CameraController : MonoBehaviour
             float num2 = Input.GetAxis("Mouse Y") * Time.deltaTime * settings.thirdPersonCameraSensitive;
             desiredX = transform.localRotation.eulerAngles.y + num;
             xRotation -= num2;
-            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            xRotation = Mathf.Clamp(xRotation, 5f, 90f);
             transform.localRotation = Quaternion.Euler(xRotation, desiredX, 0);
         }
     }
