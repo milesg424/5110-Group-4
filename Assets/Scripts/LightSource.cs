@@ -18,6 +18,7 @@ public class LightSource : Interactable
 
     Material mt;
     Rigidbody rb;
+    AudioSource audioSource;
     GSettings settings;
     Coroutine floatingCoroutine;
 
@@ -38,6 +39,8 @@ public class LightSource : Interactable
         settings = GameManager.Instance.settings;
         mt = transform.Find("EmissionSphere").GetComponent<MeshRenderer>().material;
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = settings.lightSourceClip;
         SetOverallIntensity(lightIntensityBeforeInteract);
         currentIntensity = lightIntensityBeforeInteract;
         //floatingCoroutine = StartCoroutine(IFloating());
@@ -59,7 +62,24 @@ public class LightSource : Interactable
             transform.position = new Vector3(transform.position.x, transform.position.y + curFloatAmount - lastAmount, transform.position.z);
             lastAmount = curFloatAmount;
         }
+        //if (rb.velocity.magnitude < 0.1f)
+        //{
+        //    audioSource.volume = Mathf.Lerp(audioSource.volume, 0, Time.deltaTime * 5);
+        //    if (audioSource.volume < 0.05f)
+        //    {
+        //        audioSource.volume = 0;
+        //    }
+        //}
+        //else
+        //{
+        //    if (!audioSource.isPlaying)
+        //    {
+        //        audioSource.UnPause();
+        //    }
+        //    audioSource.volume = Mathf.Lerp(audioSource.volume, 1, Time.deltaTime * 2);
+        //}
 
+        audioSource.volume = Mathf.Lerp(audioSource.volume, rb.velocity.magnitude / settings.lightSourceMoveSpeed, Time.deltaTime * 5);
     }
     public override void SetOutlineThickness(float thickness)
     {
@@ -72,6 +92,7 @@ public class LightSource : Interactable
     {
         if (!bIsInteracted)
         {
+            audioSource.Play();
             OnInteract?.Invoke();
             bIsInteracted = true;
             mt.SetInt("_Interact", 0);
@@ -84,6 +105,7 @@ public class LightSource : Interactable
     {
         if (!bIsInteracted)
         {
+            audioSource.Play();
             OnInteract?.Invoke();
             bIsInteracted = true;
             mt.SetInt("_Interact", 0);

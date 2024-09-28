@@ -43,3 +43,5 @@ MonoBehaviour:
   cameraNearPlane: -15
   help_Timer: 1
   help_Offset: 0.3
+  walkIntoWallClip: {fileID: 8300000, guid: 547bae660dcd79e4dbdd3a665db70fa1, type: 3}
+  lightSourceClip: {fileID: 8300000, guid: 624584c215a890a4a8e787ffda8bc2da, type: 3}

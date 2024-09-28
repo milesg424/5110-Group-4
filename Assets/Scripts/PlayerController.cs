@@ -352,6 +352,7 @@ public class PlayerController : MonoBehaviour
             else if (isDashing && collision.gameObject.CompareTag("Wall"))
             {
                 isDashHitSomething = true;
+                GameManager.Instance.PlaySound(settings.walkIntoWallClip);
             }
         }
         else if(!isPreDashing)
@@ -392,6 +393,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isThirdPerson)
         {
+            GameManager.Instance.PlaySound(settings.walkIntoWallClip);
             if (currentFacingDirection == 1)
             {
                 externalForce = new Vector3(settings.horzontalForce * -x, externalForce.y + settings.verticalForce, externalForce.z);

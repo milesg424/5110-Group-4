@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] GSettings originalSettings;
     [HideInInspector] public GSettings settings;
 
+    AudioSource audioSource;
+
     private static GameManager mInstance;
     public static GameManager Instance { get { if (mInstance == null) Debug.Log("场景中没有GameManager, 从prefab文件夹中托一个到场景里"); return mInstance; } }
 
@@ -25,6 +27,8 @@ public class GameManager : MonoBehaviour
         }
         settings = Instantiate(originalSettings);
         SceneManager.sceneLoaded += OnSceneLoad;
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Start is called before the first frame update
@@ -65,6 +69,14 @@ public class GameManager : MonoBehaviour
         if (mInstance == this)
         {
             fr.passMaterial.SetFloat("_ColorThreshold", 10);
+        }
+    }
+
+    public void PlaySound(AudioClip clip)
+    {
+        if (clip != null)
+        {
+            audioSource.PlayOneShot(clip);
         }
     }
 }

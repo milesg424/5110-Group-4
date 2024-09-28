@@ -96,6 +96,13 @@ public class GSettings : ScriptableObject
     public float help_Timer;
     [Rename("触发荧光字母所需精度")]
     public float help_Offset;
+
+    [Header("音效-------------------------------")]
+
+    [Rename("碰撞墙体音效")]
+    public AudioClip walkIntoWallClip;
+    [Rename("光源引导音效")]
+    public AudioClip lightSourceClip;
 }
 
 

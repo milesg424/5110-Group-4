@@ -7,7 +7,7 @@ public class WallDistanceCheck : MonoBehaviour
     PlayerController pc;
     CameraController cc;
     Material mt;
-    MeshRenderer renderer;
+    MeshRenderer meshRenderer;
     Color origin;
     float extendX;
     float extendZ;
@@ -23,11 +23,11 @@ public class WallDistanceCheck : MonoBehaviour
     {
         pc = PlayerController.Instance;
         cc = FindObjectOfType<CameraController>();
-        renderer = GetComponent<MeshRenderer>();
-        mt = renderer.material;
+        meshRenderer = GetComponent<MeshRenderer>();
+        mt = meshRenderer.material;
         origin = mt.GetColor("_Color");
-        extendX = renderer.bounds.extents.x;
-        extendZ = renderer.bounds.extents.z;
+        extendX = meshRenderer.bounds.extents.x;
+        extendZ = meshRenderer.bounds.extents.z;
 
     }
 
