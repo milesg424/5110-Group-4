@@ -101,11 +101,13 @@ public class PasswordKeyBoard : MonoBehaviour
                     enteredNumber.Add(temp);
                 }
                 UpdateInput();
+                GameManager.Instance.PlaySound(GameManager.Instance.settings.buttonClickClip);
             }
             if (Input.GetKeyDown(KeyCode.Backspace) && enteredNumber.Count > 0)
             {
                 enteredNumber.RemoveAt(enteredNumber.Count - 1);
                 UpdateInput();
+                GameManager.Instance.PlaySound(GameManager.Instance.settings.buttonClickClip);
             }
             if (Input.GetKeyDown(KeyCode.Return))
             {
@@ -121,6 +123,7 @@ public class PasswordKeyBoard : MonoBehaviour
             Debug.Log("Incorrect");
             vfx.SetVector4("Color", new Vector4(6, 0, 0, 1));
             vfx.Play();
+            GameManager.Instance.PlaySound(GameManager.Instance.settings.passwordWrongClip);
         }
         else
         {
@@ -135,12 +138,14 @@ public class PasswordKeyBoard : MonoBehaviour
                 OnCorrect?.Invoke();
                 vfx.SetVector4("Color", new Vector4(0, 6, 0, 1));
                 vfx.Play();
+                GameManager.Instance.PlaySound(GameManager.Instance.settings.passwordCorrectClip);
             }
             else
             {
                 Debug.Log("Incorrect");
                 vfx.SetVector4("Color", new Vector4(6, 0, 0, 1));
                 vfx.Play();
+                GameManager.Instance.PlaySound(GameManager.Instance.settings.passwordWrongClip);
             }
         }
         StartCoroutine(ICanDoInput());

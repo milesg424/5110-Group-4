@@ -94,6 +94,7 @@ public class Puzzle_Help : MonoBehaviour
             {
                 puzzleComplete = true;
                 OnComplete?.Invoke();
+                StartCoroutine(IPlayerClip());
             }
         }
 
@@ -111,6 +112,7 @@ public class Puzzle_Help : MonoBehaviour
                     {
                         _1Solved = true;
                         StartCoroutine(IShow(1));
+                        GameManager.Instance.PlaySound(GameManager.Instance.settings.HClip);
                     }
                 }
                 else
@@ -126,6 +128,7 @@ public class Puzzle_Help : MonoBehaviour
                     {
                         _2Solved = true;
                         StartCoroutine(IShow(2));
+                        GameManager.Instance.PlaySound(GameManager.Instance.settings.EClip);
                     }
                 }
                 else
@@ -141,6 +144,7 @@ public class Puzzle_Help : MonoBehaviour
                     {
                         _3Solved = true;
                         StartCoroutine(IShow(3));
+                        GameManager.Instance.PlaySound(GameManager.Instance.settings.LClip);
                     }
                 }
                 else
@@ -156,6 +160,7 @@ public class Puzzle_Help : MonoBehaviour
                     {
                         _4Solved = true;
                         StartCoroutine(IShow(4));
+                        GameManager.Instance.PlaySound(GameManager.Instance.settings.PClip);
                     }
                 }
                 else
@@ -230,5 +235,11 @@ public class Puzzle_Help : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         sr.color = new Color(col.r, col.g, col.b, 0);
+    }
+
+    IEnumerator IPlayerClip()
+    {
+        yield return new WaitForSeconds(0.5f);
+        GameManager.Instance.PlaySound(GameManager.Instance.settings.puzzleSolveClip);
     }
 }

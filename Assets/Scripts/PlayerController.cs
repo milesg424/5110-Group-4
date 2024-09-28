@@ -347,6 +347,7 @@ public class PlayerController : MonoBehaviour
                 bo.Break();
                 cam.Shake(2, 1, 0.3f);
                 isDashHitSomething = true;
+                GameManager.Instance.PlaySound(settings.crashWallClip);
 
             }
             else if (isDashing && collision.gameObject.CompareTag("Wall"))

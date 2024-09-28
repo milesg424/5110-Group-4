@@ -44,4 +44,13 @@ MonoBehaviour:
   help_Timer: 1
   help_Offset: 0.3
   walkIntoWallClip: {fileID: 8300000, guid: 547bae660dcd79e4dbdd3a665db70fa1, type: 3}
+  crashWallClip: {fileID: 8300000, guid: 4a1e721d67d3b76428b8ca1cf79564fe, type: 3}
   lightSourceClip: {fileID: 8300000, guid: 624584c215a890a4a8e787ffda8bc2da, type: 3}
+  passwordCorrectClip: {fileID: 8300000, guid: 107a13eed3b6c354f91f586323d07729, type: 3}
+  passwordWrongClip: {fileID: 8300000, guid: 34c564aa759a489488f87ccd76d00e7f, type: 3}
+  buttonClickClip: {fileID: 8300000, guid: 1ebf05c7ec7f5774fb9b89a06a926cfe, type: 3}
+  HClip: {fileID: 8300000, guid: 75a1a7d3657d551419d9557772addb7b, type: 3}
+  EClip: {fileID: 8300000, guid: 85c6abc3f65fe654fa1b9bd1ca32b028, type: 3}
+  LClip: {fileID: 8300000, guid: 6c0667b6e9f7d2c43bef95071d666df2, type: 3}
+  PClip: {fileID: 8300000, guid: 5ac08401701536e4682986426ebf6cd2, type: 3}
+  puzzleSolveClip: {fileID: 8300000, guid: f35042dc2f0ef7e4a8300a4acf15a15e, type: 3}

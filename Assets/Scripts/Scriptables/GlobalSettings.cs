@@ -101,8 +101,26 @@ public class GSettings : ScriptableObject
 
     [Rename("碰撞墙体音效")]
     public AudioClip walkIntoWallClip;
+    [Rename("破坏墙体音效")]
+    public AudioClip crashWallClip;
     [Rename("光源引导音效")]
     public AudioClip lightSourceClip;
+    [Rename("密码正确音效")]
+    public AudioClip passwordCorrectClip;
+    [Rename("密码错误音效")]
+    public AudioClip passwordWrongClip;
+    [Rename("按键音效")]
+    public AudioClip buttonClickClip;
+    [Rename("H音效")]
+    public AudioClip HClip;
+    [Rename("E音效")]
+    public AudioClip EClip;
+    [Rename("L音效")]
+    public AudioClip LClip;
+    [Rename("P音效")]
+    public AudioClip PClip;
+    [Rename("解密成功音效")]
+    public AudioClip puzzleSolveClip;
 }
 
 
