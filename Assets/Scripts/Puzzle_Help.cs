@@ -112,7 +112,7 @@ public class Puzzle_Help : MonoBehaviour
                     {
                         _1Solved = true;
                         StartCoroutine(IShow(1));
-                        GameManager.Instance.PlaySound(GameManager.Instance.settings.HClip);
+                        GameManager.Instance.PlaySound(GameManager.Instance.settings.HClip, 0.4f);
                     }
                 }
                 else
@@ -128,7 +128,7 @@ public class Puzzle_Help : MonoBehaviour
                     {
                         _2Solved = true;
                         StartCoroutine(IShow(2));
-                        GameManager.Instance.PlaySound(GameManager.Instance.settings.EClip);
+                        GameManager.Instance.PlaySound(GameManager.Instance.settings.EClip, 0.4f);
                     }
                 }
                 else
@@ -144,7 +144,7 @@ public class Puzzle_Help : MonoBehaviour
                     {
                         _3Solved = true;
                         StartCoroutine(IShow(3));
-                        GameManager.Instance.PlaySound(GameManager.Instance.settings.LClip);
+                        GameManager.Instance.PlaySound(GameManager.Instance.settings.LClip, 0.4f);
                     }
                 }
                 else
@@ -160,7 +160,7 @@ public class Puzzle_Help : MonoBehaviour
                     {
                         _4Solved = true;
                         StartCoroutine(IShow(4));
-                        GameManager.Instance.PlaySound(GameManager.Instance.settings.PClip);
+                        GameManager.Instance.PlaySound(GameManager.Instance.settings.PClip, 0.4f);
                     }
                 }
                 else
