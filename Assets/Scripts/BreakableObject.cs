@@ -11,6 +11,7 @@ public class BreakableObject : MonoBehaviour
     public float radius = 2f;
     public Vector3 cubeScale;
 
+
     public void Break()
     {
         GetComponent<Renderer>().enabled = false;
@@ -48,6 +49,10 @@ public class BreakableObject : MonoBehaviour
         if (other.tag == "Player")
         {
             Break();
+            if(GameObject.FindGameObjectsWithTag("Light").Length >= 0)
+            {
+                GameObject.FindGameObjectsWithTag("Light")[0].GetComponent<LightExplode>().enabled = true;
+            }
 
         }
     }

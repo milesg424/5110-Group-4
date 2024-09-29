@@ -8,6 +8,7 @@ TagManager:
   - Breakable
   - FakeShadow
   - Ground
+  - Light
   layers:
   - Default
   - TransparentFX

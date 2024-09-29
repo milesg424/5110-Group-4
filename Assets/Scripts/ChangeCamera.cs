@@ -7,6 +7,11 @@ public class ChangeCamera : MonoBehaviour
      public PlayerController PlayerController;
      bool isThirdCamera;
      public bool canPickUp;
+     public bool getLeg1;
+     public bool getLeg2;
+     public bool getArm1;
+     public bool getArm2;
+     public bool getHead;
     // Start is called before the first frame update
     void Start()
     {

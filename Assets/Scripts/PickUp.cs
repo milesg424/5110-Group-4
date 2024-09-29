@@ -23,18 +23,26 @@ public class PickUp : MonoBehaviour
         case 4:
                 removeBody.SetActive(false);
                 body.SetActive(true);
+                GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<ChangeCamera>().getLeg1 = true;
             break;
         case 3:
                 removeBody.SetActive(false);
                 body.SetActive(true);
+                GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<ChangeCamera>().getLeg2 = true;
                 break;
         case 2:
+                GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<ChangeCamera>().getArm1 = true;
                 break;
         case 1:
+                GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<ChangeCamera>().getArm2 = true;
                 break;
             case 6:
-
-                StartCoroutine(GetHead());
+                if (GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<ChangeCamera>().getLeg1 &&
+                    GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<ChangeCamera>().getLeg2 &&
+                    GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<ChangeCamera>().getArm1 &&
+                    GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<ChangeCamera>().getArm2)
+                StartCoroutine(GetHead());              
+                GameObject.FindGameObjectsWithTag("Breakable")[0].GetComponent<Collider>().enabled = true;
                 break;
             default:
                 break;
@@ -56,20 +64,25 @@ public class PickUp : MonoBehaviour
 
     IEnumerator GetHead()
     {
-        
+        GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<Rigidbody>().isKinematic = true;
+        GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<PlayerController>().enabled = false;
         yield return new WaitForSeconds(1.0f);
-        gameObject.GetComponent<Renderer>().enabled = false;
-        gameObject.GetComponent<Collider>().enabled = false;
-        body.SetActive(true);
+     
+      
         
         GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<Animator>().
         SetBool("CanPickUp?", true);
         yield return new WaitForSeconds(2.0f);
+        gameObject.GetComponent<Renderer>().enabled = false;
+        gameObject.GetComponent<Collider>().enabled = false;
+        body.SetActive(true);
         bodyPart.SetActive(true);
         GameObject.FindGameObjectsWithTag("Breakable")[0].
             GetComponent<Collider>().enabled = true;
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(6.0f);
         GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<Animator>().
       SetBool("CanPickUp?", false);
+        GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<Rigidbody>().isKinematic = false;
+        GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<PlayerController>().enabled = true;
     }
 }
