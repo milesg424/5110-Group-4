@@ -213,10 +213,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shift+AD
       objectReference: {fileID: 0}
-    - target: {fileID: 819899310639447829, guid: b14139ecf97de1a4e9aad5b84b8555b2, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3937491815369406895, guid: b14139ecf97de1a4e9aad5b84b8555b2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
