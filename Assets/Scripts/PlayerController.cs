@@ -241,7 +241,7 @@ public class PlayerController : MonoBehaviour
 
     void CrashWall()
     {
-        if (Input.GetButtonDown("CrashWall"))
+        if (Input.GetButtonDown("CrashWall") && x != 0)
         {
             if (!isThirdPerson && currentFacingDirection == 4  && mDashCD <= 0)
             {
