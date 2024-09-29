@@ -24,17 +24,21 @@ public class PickUp : MonoBehaviour
                 removeBody.SetActive(false);
                 body.SetActive(true);
                 GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<ChangeCamera>().getLeg1 = true;
-            break;
+                GameManager.Instance.PlaySound(GameManager.Instance.settings.EClip, 0.4f);
+                break;
         case 3:
                 removeBody.SetActive(false);
                 body.SetActive(true);
                 GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<ChangeCamera>().getLeg2 = true;
+                GameManager.Instance.PlaySound(GameManager.Instance.settings.PClip, 0.4f);
                 break;
         case 2:
                 GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<ChangeCamera>().getArm1 = true;
+                GameManager.Instance.PlaySound(GameManager.Instance.settings.HClip, 0.4f);
                 break;
         case 1:
                 GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<ChangeCamera>().getArm2 = true;
+                GameManager.Instance.PlaySound(GameManager.Instance.settings.LClip, 0.4f);
                 break;
             case 6:
                 if (GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<ChangeCamera>().getLeg1 &&
@@ -43,6 +47,7 @@ public class PickUp : MonoBehaviour
                     GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<ChangeCamera>().getArm2)
                 StartCoroutine(GetHead());              
                 GameObject.FindGameObjectsWithTag("Breakable")[0].GetComponent<Collider>().enabled = true;
+                GameManager.Instance.PlaySound(GameManager.Instance.settings.puzzleSolveClip, 0.4f);
                 break;
             default:
                 break;
