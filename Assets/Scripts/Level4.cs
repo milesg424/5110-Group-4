@@ -27,6 +27,7 @@ public class Level4 : MonoBehaviour
         cc = FindObjectOfType<CameraController>();
         cc.SetSideView();
         cc.canRotate = false;
+        cc.canSwith3D = false;
 
         BlackOutHandler.Instance.SetAlpha(0.99f);
         BlackOutHandler.Instance.SetFadeOutSize(2, 1.5f);
