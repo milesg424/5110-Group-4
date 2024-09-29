@@ -53,12 +53,14 @@ public class PickUp : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            PickUpItem();
-            if(type != 6)
+            if (GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<ChangeCamera>().getHead)
             {
-                gameObject.SetActive(false);
+                PickUpItem();
+                if (type != 6)
+                {
+                    gameObject.SetActive(false);
+                }
             }
-            
         }
     }
 

@@ -7,6 +7,7 @@ public class LightExplode : MonoBehaviour
 {
     public float rangeSpeed;
     public float intensitySpeed;
+    public GameObject endScreen;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,9 +19,9 @@ public class LightExplode : MonoBehaviour
     {
         GetComponent<Light>().intensity += intensitySpeed;
         GetComponent<Light>().range += rangeSpeed;
-        if (GetComponent<Light>().intensity >= 50000)
+        if (GetComponent<Light>().intensity >= 100000)
         {
-            SceneManager.LoadScene(6);
+            endScreen.SetActive(true);
         }
     }
 }

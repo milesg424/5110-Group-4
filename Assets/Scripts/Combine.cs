@@ -25,6 +25,7 @@ public class Combine : MonoBehaviour
             collision.gameObject.transform.GetChild(1).gameObject.SetActive(false);
             collision.gameObject.transform.GetChild(4).gameObject.SetActive(true);
             collision.gameObject.GetComponent<ChangeCamera>().canPickUp = true;
+            collision.gameObject.GetComponent<ChangeCamera>().getHead = true;
             gameObject.SetActive(false);
         }
     }
