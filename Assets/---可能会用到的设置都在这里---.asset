@@ -54,3 +54,5 @@ MonoBehaviour:
   LClip: {fileID: 8300000, guid: 6c0667b6e9f7d2c43bef95071d666df2, type: 3}
   PClip: {fileID: 8300000, guid: 5ac08401701536e4682986426ebf6cd2, type: 3}
   puzzleSolveClip: {fileID: 8300000, guid: f35042dc2f0ef7e4a8300a4acf15a15e, type: 3}
+  laserCutClip: {fileID: 8300000, guid: 16d5c21e904df4942bdfe3c3b6fd64b7, type: 3}
+  gameOverClip: {fileID: 8300000, guid: af89918fa47b19943abf25eab6d6add5, type: 3}

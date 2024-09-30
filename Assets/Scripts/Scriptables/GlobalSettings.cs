@@ -121,6 +121,10 @@ public class GSettings : ScriptableObject
     public AudioClip PClip;
     [Rename("解密成功音效")]
     public AudioClip puzzleSolveClip;
+    [Rename("激光音效")]
+    public AudioClip laserCutClip;
+    [Rename("通关音效")]
+    public AudioClip gameOverClip;
 }
 
 

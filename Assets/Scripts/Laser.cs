@@ -61,6 +61,7 @@ public class Laser : MonoBehaviour
             other.transform.GetChild(2).parent = null;
             cut = true;
             gameObject.SetActive(false);
+            GameManager.Instance.PlaySound(GameManager.Instance.settings.laserCutClip, 0.7f);
             
         }
     }
