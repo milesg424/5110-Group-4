@@ -14178,7 +14178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 977781a639f32b14a95aed82b0d9ff2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rangeSpeed: 10
+  rangeSpeed: 1
   intensitySpeed: 100
   endScreen: {fileID: 1301962086}
 --- !u!1 &1536961508
